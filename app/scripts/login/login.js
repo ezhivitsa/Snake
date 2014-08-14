@@ -36,9 +36,7 @@
 				}
 			];
 
-			this.navStyle = {
-				overflow: 'visible'
-			};
+			this.navStyle = {};
 		}
 	]);
 

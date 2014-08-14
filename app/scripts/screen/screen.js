@@ -5,44 +5,52 @@
 
 	screen.controller('ScreenCtrl', ['$scope', '$swipe', '$route',
 		function ($scope, $swipe, $route) {
-			var self = this,
-				start;
+			var self = this;
 
 			self.screenStyle = {
 				'margin-left': '0px'
 			};
 
-			self.setActive = function (menu, active) {
-				var menuItem = $route.current.params.menuItem,
-					isFound = false,
-					screenNum = 0;
+			self.setActive = function (menu) {
+				var menuItem = $route.current.params.menuItem;
 
 				for ( var i = 0; i < menu.length; i++ ) {
-					if ( !isFound && menu[i].url === menuItem ) {
-						isFound = true;
-						screenNum = i;
-					}
-					else {
-						menu[i].isActive = false;
+					if (  menu[i].url === menuItem ) {
+						switch (i) {
+							case 0:
+								menu.unshift(menu.pop());
+								break;
+							case 1:
+								break;
+							default:
+								menu.concat(menu.splice(0, i));
+								break;
+						}
+
+						break;
 					}
 				}
-
-				active = screenNum;
 			}
 
-			self.onSwipe = function () {
+			self.onSwipe = function (element, callback) {
+				var start;
+
+				element['swipe'] = true;
+
 				$swipe.bind(element, {
 					start: function(coords) {
 						start = coords;
-						scope.screenStyle['margin-left'] = 0 + 'px';
+						( callback[0] ) && callback[0](start, coords);
 					},
 					move: function (coords) {
-						scope.screenStyle['margin-left'] = (coords.x - start.x) + 'px';
-						console.log(scope)
-						//console.log(coords.x - start.x)
+						if ( element['swipe'] ) {
+							( callback[0] ) && callback[0](start, coords);
+						}
 					},
 					end: function (coords) {
-						console.log(coords);
+						if ( element['swipe'] ) {
+							( callback[1] ) && callback[1](start, coords);
+						}
 					},
 					cancel: function (coords) {
 
@@ -50,8 +58,8 @@
 				});				
 			}
 
-			self.offSwipe = function () {
-
+			self.offSwipe = function (element) {
+				element['swipe'] = false;
 			}
 		}
 	]);
@@ -63,23 +71,37 @@
 			transclude: true,
 			templateUrl: 'templates/screen.html',
 			scope: {
-				active: '=',
 				menu: '=',
-				ctrl: '='
+				ctrl: '=',
+				navStyle: '='
 			},
 			link: function (scope, element, attrs) {
-				scope.ctrl.setActive(scope.menu, scope.active);
+				var el = element.parent();
 
-				scope.ctrl.screenStyle['transform'] = 'translateX(' + ( -100 * scope.active ) + '%)';
+				scope.ctrl.setActive(scope.menu);
+				scope.navStyle['transform'] = 'translateX(-' + scope.menu[0].style.width + ')';
 
-				// setTimeout(function () {
-				// 	scope.$apply(function () {
-				// 		scope.active = 0;
-				// 		scope.menu[0].isActive = true;
-				// 		console.log('changed')
-				// 		debugger
-				// 	});
-				// }, 1000);
+				scope.ctrl.onSwipe(el, 
+					[
+						function (start, current) {
+							scope.$apply(function () {
+								var width = el[0].offsetWidth;
+
+								scope.navStyle['margin-left'] = (current.x - start.x) / width * parseInt(scope.menu[1].style.width) + 'px';
+								scope.ctrl.screenStyle['margin-left'] = (current.x - start.x) + 'px';
+							});
+						},
+						function (start, end) {
+							scope.$apply(function () {
+								var width = el[0].offsetWidth;
+
+								if ( Math.abs( end.x - start.x ) * 3 > width ) {
+									//TweenLite.fromTo( el[0], 0.5, {} )
+								}
+							});
+						}
+					]
+				);
 			}
 		};
 	});

@@ -7,7 +7,8 @@
     "angular-animate": "latest",
     "angular-touch": "latest",
     "angular-route": "latest",
-    "normalize-scss": "latest"
+    "normalize-scss": "latest",
+    "gsap": "latest"
   },
   "appPath": "app"
 }

@@ -487,14 +487,23 @@ body {
           color: #fff; }
   body .screen-view {
     overflow: hidden; }
+    body .screen-view > div {
+      height: 100%;
+      position: fixed;
+      top: 0px;
+      left: 0;
+      right: 0;
+      padding: 75px 13px 18px 13px;
+      box-sizing: border-box; }
     body .screen-view .screen-wrapper {
-      white-space: nowrap;
-      font-size: 0;
-      width: 100%; }
+      width: 100%;
+      height: 100%;
+      overflow: auto; }
       body .screen-view .screen-wrapper > div {
         width: 100%;
-        display: inline-block;
-        vertical-align: top; }
+        display: none; }
+        body .screen-view .screen-wrapper > div.active {
+          display: block; }
     body .screen-view label {
       display: block;
       font-family: segoeui;

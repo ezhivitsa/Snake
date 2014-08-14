@@ -1,6 +1,6 @@
 <div class="screen-view" ng-controller="LoginCtrl as login">
-	<nav id="main-nav" ng-style="login.navStyle">
-		<ul>
+	<nav id="main-nav">
+		<ul ng-style="login.navStyle">
 			<li 
 				ng-repeat="item in login.menu"
 				ng-style="item.style">
@@ -11,12 +11,15 @@
 
 	<div ng-controller="ScreenCtrl as screen">
 		<screen-wrapper
-			ng-style="screen.screenStyle"
 			ctrl="screen"
+			ng-style="screen.screenStyle"
 			menu="login.menu"
 			nav-style="login.navStyle">
 
-			<screen-item ng-controller="SignInCtrl as signIn">
+			<screen-item 
+				ng-controller="SignInCtrl as signIn" 
+				ng-class="{active: login.menu[1].url == 'signin'}">
+
 				<form name="loginForm" ng-submit="signIn.submitForm(loginForm.$valid)" novalidate>
 					<label>Username</label>
 					<input 
@@ -41,7 +44,10 @@
 					</input>
 				</form>
 			</screen-item>
-			<screen-item ng-controller="RegisterCtrl as register">
+			<screen-item 
+				ng-controller="RegisterCtrl as register" 
+				ng-class="{active: login.menu[1].url == 'registration'}">
+
 				<form name="registerForm" ng-submit="register.submitForm(registerForm.$valid)" novalidate>
 					<label>Username</label>
 					<input 

@@ -4,13 +4,14 @@
 	var snakeApp = angular.module('snakeApp', [
 		'ngRoute',
 		'ngTouch',
+		'ngAnimate',
 
 		'snakeScreen',
 		'snakeGame',
 		'snakeLogin'
 	]);
 
-	snakeApp.config(['$routeProvider', 
+	snakeApp.config(['$routeProvider',
 		function ($routeProvider) {
 			$routeProvider
 				.when('/login/:menuItem', {
@@ -20,34 +21,22 @@
 					templateUrl: 'views/screen.html'
 				})
 				.otherwise({
-					redirectTo: '/game/settings',
+					redirectTo: function (routeParams, path, search) {
+						switch( path ) {
+							case '/login':
+								return '/login/signin';
+							case '/game':
+								return '/game/settings';
+							default:
+								return '/game/settings';
+						}
+					}
 				});
 		}
 	]);
 
 	snakeApp.controller('AppCtrl', ['$scope', '$rootScope', '$route',
 		function ($scope, $rootScope, $route) {
-			$rootScope.getActiveItem = function (menu) {
-				var menuItem = $route.current.params.menuItem,
-					isFound = false,
-					screenNum = 0;
-
-				for ( var i = 0; i < menu.length; i++ ) {
-					if ( !isFound && menu[i].url === menuItem ) {
-						isFound = true;
-						screenNum = i;
-					}
-					else {
-						menu[i].isActive = false;
-					}
-				}
-
-				return screenNum;
-			}
-
-			$rootScope.setActiveScreen = function () {
-				// body...
-			}
 		}
 	]);
 
