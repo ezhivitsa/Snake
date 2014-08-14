@@ -1,0 +1,28 @@
+<div class="screen-view" ng-controller="ScreenCtrl as screen">
+	<nav id="main-nav">
+		<ul>
+			<li>Settings</li>
+			<li>Game</li>
+			<li>Score</li>
+		</ul>
+	</nav>
+	
+	<div class="screen-wrapper">
+		<div ng-controller="SettingsCtrl as settings">
+			<label>Difficulty :</label>
+			<select 
+					ng-model="settings.userSettings.difficulty" 
+					ng-options="c for c in settings.userSettings.difficultyOptions">
+			</select>
+		</div>
+
+		<div ng-controler="GameCtrl as game">
+			
+		</div>
+
+		<div ng-controller="ScoreCtrl as score">
+			
+		</div>
+	</div>
+
+</div>

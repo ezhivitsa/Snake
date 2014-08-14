@@ -1,0 +1,13 @@
+{
+  "name": "snake",
+  "version": "0.0.1",
+  "dependencies": {
+    "angular": "latest",
+    "angular-resource": "latest",
+    "angular-animate": "latest",
+    "angular-touch": "latest",
+    "angular-route": "latest",
+    "normalize-scss": "latest"
+  },
+  "appPath": "app"
+}

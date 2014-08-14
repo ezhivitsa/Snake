@@ -1,0 +1,4 @@
+/node_modules
+/app/vendor
+/.sass-cache
+/app/dist

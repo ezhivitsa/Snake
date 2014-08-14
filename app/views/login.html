@@ -1,0 +1,81 @@
+<div class="screen-view" ng-controller="LoginCtrl as login">
+	<nav id="main-nav" ng-style="login.navStyle">
+		<ul>
+			<li 
+				ng-repeat="item in login.menu"
+				ng-style="item.style">
+					{{item.name}}
+			</li>
+		</ul>
+	</nav>
+
+	<div ng-controller="ScreenCtrl as screen">
+		<screen-wrapper
+			ng-style="screen.screenStyle"
+			ctrl="screen"
+			menu="login.menu"
+			nav-style="login.navStyle">
+
+			<screen-item ng-controller="SignInCtrl as signIn">
+				<form name="loginForm" ng-submit="signIn.submitForm(loginForm.$valid)" novalidate>
+					<label>Username</label>
+					<input 
+						name="username"
+						type="text" 
+						ng-model="signIn.user.username"
+						required>
+					</input>
+
+					<label>Password</label>
+					<input 
+						name="password"
+						type="password" 
+						ng-model="signIn.user.password"
+						required>
+					</input>
+
+					<input 
+						type="submit" 
+						value="Sign In"
+						ng-disabled="loginForm.$invalid">
+					</input>
+				</form>
+			</screen-item>
+			<screen-item ng-controller="RegisterCtrl as register">
+				<form name="registerForm" ng-submit="register.submitForm(registerForm.$valid)" novalidate>
+					<label>Username</label>
+					<input 
+						name="username"
+						type="text" 
+						ng-model="register.user.username"
+						required>
+					</input>
+
+					<label>Password</label>
+					<input 
+						name="password"
+						type="password" 
+						ng-model="register.user.password"
+						required>
+					</input>
+
+					<label>Confirm Password</label>
+					<input 
+						name="password"
+						type="password" 
+						ng-model="register.user.confirmPassword"
+						ng-match="register.user.password"
+						required>
+					</input>
+
+					<input 
+						type="submit" 
+						value="Sign In"
+						ng-disabled="registerForm.$invalid">
+					</input>
+				</form>
+			</screen-item>
+		</screen-wrapper>		
+	</div>
+
+</div>

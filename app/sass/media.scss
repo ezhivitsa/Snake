@@ -1,0 +1,45 @@
+html {
+	font-size: 62.5%;
+}
+
+@media(max-width: 600px) {
+    html {
+        font-size: 61%;
+    }
+}
+
+@media(max-width: 550px) {
+    html {
+        font-size: 54%;
+    }
+}
+
+@media(max-width: 500px) {
+    html {
+        font-size: 47%;
+    }
+}
+
+@media(max-width: 450px) {
+    html {
+        font-size: 43%;
+    }
+}
+
+@media(max-width: 400px) {
+    html {
+        font-size: 37%;
+    }
+}
+
+@media(max-width: 350px) {
+    html {
+        font-size: 33%;
+    }
+}
+
+@media(max-width: 320px) {
+    html {
+        font-size: 31%;
+    }
+}
