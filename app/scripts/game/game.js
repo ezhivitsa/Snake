@@ -5,7 +5,50 @@
 
 	game.controller('GameScreenCtrl', ['$scope', 
 		function ($scope) {
-
+			this.menu = [
+				{
+					name: "score",
+					url: "score",
+					style: {
+						width: '108px'
+					}
+				},
+				{
+					name: "settings",
+					url: "settings",
+					style: {
+						width: '155px'
+					}
+				},
+				{
+					name: "play game",
+					url: "playgame",
+					style: {
+						width: '198px'
+					}
+				},
+				{
+					name: "score",
+					url: "score",
+					style: {
+						width: '108px'
+					}
+				},
+				{
+					name: "settings",
+					url: "settings",
+					style: {
+						width: '155px'
+					}
+				},
+				{
+					name: "play game",
+					url: "playgame",
+					style: {
+						width: '198px'
+					}
+				}
+			];
 		}
 	]);
 

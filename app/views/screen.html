@@ -1,9 +1,11 @@
-<div class="screen-view" ng-controller="ScreenCtrl as screen">
+<div class="screen-view" ng-controller="GameScreenCtrl as gameScreen">
 	<nav id="main-nav">
-		<ul>
-			<li>Settings</li>
-			<li>Game</li>
-			<li>Score</li>
+		<ul ng-style="gameScreen.navStyle">
+			<li 
+				ng-repeat="item in gameScreen.menu"
+				ng-style="item.style">
+					{{item.name}}
+			</li>
 		</ul>
 	</nav>
 	
