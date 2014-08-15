@@ -7,9 +7,13 @@
 	<link rel="stylesheet" href="dist/css/main.min.css">
 </head>
 <body ng-app="snakeApp" ng-controller="AppCtrl">
+<my-salutation ng-controller="SalutationController as ctrl">
+        <strong>{{ctrl}}</strong>        
+    </my-salutation>
 	<div ng-view></div>
 	
 	<script src="vendor/angular/angular.min.js"></script>
+	<script src="vendor/jquery/dist/jquery.min.js"></script>
 	<script src="vendor/gsap/src/minified/plugins/CSSPlugin.min.js"></script>
 	<script src="vendor/gsap/src/minified/easing/EasePack.min.js"></script>
 	<script src="vendor/gsap/src/minified/Tweenlite.min.js"></script>

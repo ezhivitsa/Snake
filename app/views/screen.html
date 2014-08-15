@@ -9,22 +9,35 @@
 		</ul>
 	</nav>
 	
-	<div class="screen-wrapper">
-		<div ng-controller="SettingsCtrl as settings">
-			<label>Difficulty :</label>
-			<select 
-					ng-model="settings.userSettings.difficulty" 
-					ng-options="c for c in settings.userSettings.difficultyOptions">
-			</select>
-		</div>
+	<div ng-controller="ScreenCtrl as screen">
+		<screen-wrapper
+			ng-style="screen.screenStyle"
+			menu="gameScreen.menu"
+			nav-style="gameScreen.navStyle">
 
-		<div ng-controler="GameCtrl as game">
-			
-		</div>
+			<screen-item 
+				ng-controller="SettingsCtrl as settings"
+				ng-show="gameScreen.menu[1].url == 'settings'">
 
-		<div ng-controller="ScoreCtrl as score">
-			
-		</div>
+				<label>Difficulty :</label>
+				{{settings}}
+				<wp-select
+					model="settings.userSettings.difficulty"
+					options="settings.userSettings.difficultyOptions">
+				</wp-select>
+
+			</screen-item>
+
+			<screen-item 
+				ng-controler="GameCtrl as game"
+				ng-show="gameScreen.menu[1].url == 'playgame'">
+			</screen-item>
+
+			<screen-item 
+				ng-controller="ScoreCtrl as score"
+				ng-show="gameScreen.menu[1].url == 'score'">
+			</screen-item>
+
+		</screen-wrapper>
 	</div>
-
 </div>

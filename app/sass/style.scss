@@ -51,11 +51,6 @@ body {
 			
 			> div {
 				width: 100%;
-				display: none;
-
-				&.active {
-					display: block
-				}
 			}
 		}
 
@@ -81,6 +76,18 @@ body {
             background: #000;
             font-size: 14px;
             margin-bottom: 14px;
+        }
+
+        div.has-error {
+	        input {
+	        	margin-bottom: 2px;
+	        }
+
+	        .error {
+	        	color: #e50303;
+	        	font-size: 11px;
+	        	margin: 0 0 14px;
+	        }
         }
 
         input[disabled="disabled"] {

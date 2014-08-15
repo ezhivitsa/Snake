@@ -40,6 +40,18 @@
 		}
 	]);
 
+	login.directive('signIn', function () {
+		return {
+			restrict: 'A',
+			controller: ['$scope', function ($scope) {
+				this.user = {
+					username: '',
+					password: ''
+				}
+			}]
+		};
+	});
+
 	login.controller('SignInCtrl', ['$scope', 
 		function ($scope) {
 			this.user = {

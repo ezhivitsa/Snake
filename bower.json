@@ -8,7 +8,8 @@
     "angular-touch": "latest",
     "angular-route": "latest",
     "normalize-scss": "latest",
-    "gsap": "latest"
+    "gsap": "latest",
+    "jquery": "latest"
   },
   "appPath": "app"
 }

@@ -11,31 +11,38 @@
 
 	<div ng-controller="ScreenCtrl as screen">
 		<screen-wrapper
-			ctrl="screen"
 			ng-style="screen.screenStyle"
 			menu="login.menu"
 			nav-style="login.navStyle">
 
 			<screen-item 
 				ng-controller="SignInCtrl as signIn" 
-				ng-class="{active: login.menu[1].url == 'signin'}">
+				ng-show="login.menu[1].url == 'signin'">
+
+				{{signIn}}
 
 				<form name="loginForm" ng-submit="signIn.submitForm(loginForm.$valid)" novalidate>
-					<label>Username</label>
-					<input 
-						name="username"
-						type="text" 
-						ng-model="signIn.user.username"
-						required>
-					</input>
+					<div ng-class="{ 'has-error' : loginForm.username.$invalid && !loginForm.username.$pristine }">
+						<label>Username</label>
+						<input 
+							name="username"
+							type="text" 
+							ng-model="signIn.user.username"
+							required>
+						</input>
+						<p ng-show="loginForm.username.$invalid && !loginForm.username.$pristine" class="error">Username is required.</p>
+					</div>
 
-					<label>Password</label>
-					<input 
-						name="password"
-						type="password" 
-						ng-model="signIn.user.password"
-						required>
-					</input>
+					<div ng-class="{ 'has-error' : loginForm.password.$invalid && !loginForm.password.$pristine }">
+						<label>Password</label>
+						<input 
+							name="password"
+							type="password" 
+							ng-model="signIn.user.password"
+							required>
+						</input>
+						<p ng-show="loginForm.password.$invalid && !loginForm.password.$pristine" class="error">Password is required.</p>
+					</div>
 
 					<input 
 						type="submit" 
@@ -46,7 +53,7 @@
 			</screen-item>
 			<screen-item 
 				ng-controller="RegisterCtrl as register" 
-				ng-class="{active: login.menu[1].url == 'registration'}">
+				ng-show="login.menu[1].url == 'registration'">
 
 				<form name="registerForm" ng-submit="register.submitForm(registerForm.$valid)" novalidate>
 					<label>Username</label>

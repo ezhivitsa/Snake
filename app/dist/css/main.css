@@ -398,61 +398,73 @@ html {
   src: url("fonts/Segoe UI/segoeui.ttf") format("truetype");
   font-weight: normal;
   font-style: normal; }
+
 @font-face {
   font-family: 'segoeuib';
   src: url("fonts/Segoe UI/segoeuib.ttf") format("truetype");
   font-weight: normal;
   font-style: normal; }
+
 @font-face {
   font-family: 'segoeuii';
   src: url("fonts/Segoe UI/segoeuii.ttf") format("truetype");
   font-weight: normal;
   font-style: normal; }
+
 @font-face {
   font-family: 'segoeuil';
   src: url("fonts/Segoe UI/segoeuil.ttf") format("truetype");
   font-weight: normal;
   font-style: normal; }
+
 @font-face {
   font-family: 'segoeuiz';
   src: url("fonts/Segoe UI/segoeuiz.ttf") format("truetype");
   font-weight: normal;
   font-style: normal; }
+
 @font-face {
   font-family: 'seguisb';
   src: url("fonts/Segoe UI/seguisb.ttf") format("truetype");
   font-weight: normal;
   font-style: normal; }
+
 @font-face {
   font-family: 'weblysleekuil';
   src: url("fonts/weblysleek_ui/weblysleekuil.ttf") format("truetype");
   font-weight: normal;
   font-style: normal; }
+
 @font-face {
   font-family: 'weblysleekuili';
   src: url("fonts/weblysleek_ui/weblysleekuili.ttf") format("truetype");
   font-weight: normal;
   font-style: normal; }
+
 @font-face {
   font-family: 'weblysleekuisb';
   src: url("fonts/weblysleek_ui/weblysleekuisb.ttf") format("truetype");
   font-weight: normal;
   font-style: normal; }
+
 @font-face {
   font-family: 'weblysleekuisbi';
   src: url("fonts/weblysleek_ui/weblysleekuisbi.ttf") format("truetype");
   font-weight: normal;
   font-style: normal; }
+
 @font-face {
   font-family: 'weblysleekuisl';
   src: url("fonts/weblysleek_ui/weblysleekuisl.ttf") format("truetype");
   font-weight: normal;
   font-style: normal; }
+
 @font-face {
   font-family: 'weblysleekuisli';
   src: url("fonts/weblysleek_ui/weblysleekuisli.ttf") format("truetype");
   font-weight: normal;
   font-style: normal; }
+
 body {
   background: #000;
   padding: 18px 13px;
@@ -488,10 +500,7 @@ body {
       height: 100%;
       overflow: auto; }
       body .screen-view .screen-wrapper > div {
-        width: 100%;
-        display: none; }
-        body .screen-view .screen-wrapper > div.active {
-          display: block; }
+        width: 100%; }
     body .screen-view label {
       display: block;
       font-family: segoeui;
@@ -510,6 +519,12 @@ body {
       background: #000;
       font-size: 14px;
       margin-bottom: 14px; }
+    body .screen-view div.has-error input {
+      margin-bottom: 2px; }
+    body .screen-view div.has-error .error {
+      color: #e50303;
+      font-size: 11px;
+      margin: 0 0 14px; }
     body .screen-view input[disabled="disabled"] {
       border: 2px solid #646464;
       color: #646464; }
