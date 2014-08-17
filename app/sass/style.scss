@@ -2,6 +2,12 @@
 @import "media.scss";
 @import "fonts.scss";
 
+$white: #fff;
+$black: #000;
+$gray: #6b6b6b;
+$red: #e50303;
+$green: #24dd00;
+
 body {
 	background: #000;
 	padding: 18px 13px;
@@ -21,11 +27,11 @@ body {
 			li {
 				display: inline-block;
 				font-size: 40px;
-				color: #6b6b6b;
+				color: $gray;
 				font-family: segoeui;
 
 				&:nth-child(2) {
-					color: #fff;
+					color: $white;
 				}
 			}
 		}
@@ -58,7 +64,7 @@ body {
             display: block;
             font-family: segoeui;
 			font-size: 11px;
-			color: #fff;
+			color: $white;
             margin-bottom: 6px;
 		}
 
@@ -71,11 +77,13 @@ body {
             display: block;
             height: 24px;
             box-sizing: border-box;
-            border: 2px solid #fff;
-            color: #fff;
-            background: #000;
+            border: 2px solid $white;
+            color: $white;
+            background: $black;
             font-size: 14px;
             margin-bottom: 14px;
+            padding-left: 5px;
+            box-sizing: border-box;
         }
 
         div.has-error {
@@ -84,15 +92,32 @@ body {
 	        }
 
 	        .error {
-	        	color: #e50303;
+	        	color: $red;
 	        	font-size: 11px;
 	        	margin: 0 0 14px;
 	        }
         }
 
         input[disabled="disabled"] {
-            border: 2px solid #646464;
-            color: #646464
+            border: 2px solid $gray;;
+            color: $gray;
+        }
+
+        .wp-select-wrapper {
+			@extend input;
+			overflow: hidden;
+			padding-left: 0;
+
+			.wp-option {
+				line-height: 20px;
+				padding-left: 5px;
+			}
+
+			&.expanded {
+				.wp-option.active {
+					color: $green;
+				}
+			}
         }
 	}
 }

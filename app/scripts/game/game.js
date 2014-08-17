@@ -3,6 +3,50 @@
 
 	var game = angular.module('snakeGame', []);
 
+	game.factory('settings', function () {
+		return {
+			difficulty: 1,
+			difficultyOptions: [
+				{
+					name: 'hard',
+					number: 0
+				},
+				{
+					name:'medium',
+					number: 1
+				},
+				{
+					name: 'easy',
+					number: 2
+				}
+			],
+
+			speed: 1,
+			speedOptions: [
+				{
+					name: 1,
+					number: 0						
+				},
+				{
+					name: 2,
+					number: 1
+				},
+				{
+					name: 3,
+					number: 2
+				},
+				{
+					name: 4,
+					number: 3
+				},
+				{
+					name: 5,
+					number: 4
+				}
+			]
+		}
+	});
+
 	game.controller('GameScreenCtrl', ['$scope', 
 		function ($scope) {
 			this.menu = [
@@ -54,18 +98,13 @@
 		}
 	]);
 
-	game.controller('SettingsCtrl', ['$scope', 
-		function ($scope) {
-			this.userSettings = {
-				difficulty: 'medium',
-				difficultyOptions: [
-					 'hard',
-					 'medium',
-					 'easy'
-				],
-				speed: 1,
-				speedOptions: [ 1, 2, 3, 4, 5 ]
-			};
+	game.controller('SettingsCtrl', ['$scope', 'settings',
+		function ($scope, settings) {
+			this.difficulty = settings.difficulty;
+			this.difficultyOptions = settings.difficultyOptions;
+
+			this.speed =  settings.speed;
+			this.speedOptions = settings.speedOptions;
 		}
 	]);
 

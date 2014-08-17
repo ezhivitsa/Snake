@@ -7,28 +7,18 @@ module.exports = function (grunt) {
         pkg: grunt.file.readJSON('package.json'),
 
         clean:  {
-            app: ['app/dist'],
-            js: ['app/dist/js/*.js'],
-            css: ['app/dist/css/*.css']
+            app: ['dist'],
+            js: ['dist/js/*.js'],
+            css: ['dist/css/*.css'],
+            sass: ['app/css/*.css']
         },
 
         sass: {
             dist: {
                 files: {
-                    'app/dist/css/main.css': ['app/sass/style.scss']
+                    'app/css/main.css': ['app/sass/style.scss']
                 }
             }
-        },
-
-        cssmin: {
-            with_banner: {
-                options: {
-                    banner: '/* <%= pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %> */\n'
-                },
-                files: {
-                    'app/dist/css/main.min.css': ['app/dist/css/main.css']
-                }
-            }   
         },
 
         jshint: {
@@ -64,23 +54,72 @@ module.exports = function (grunt) {
                         expand: true,
                         src: ['fonts/**'],
                         cwd: 'app/sass/',
-                        dest: 'app/dist/css/'
+                        dest: 'app/css/'
+                    }
+                ]
+            },
+            dist: {
+                files: [
+                    {
+                        expand: true,
+                        src: ['fonts/**'],
+                        cwd: 'app/sass/',
+                        dest: 'dist/css/'
+                    },
+                    {
+                        expand: true,
+                        src: [
+                            'images/**',
+                            '*.html',
+                            'views/{,*/}*.html',
+                            'templates/{,*/}*.html'
+                        ],
+                        cwd: 'app/',
+                        dest: 'dist/'
                     }
                 ]
             }
         },
 
-        'angular-builder': {
+        useminPrepare: {
             options: {
-                mainModule: 'snakeApp'
-            },
-            application: {
-                files: [
-                    {
-                        src:  ['app/vendor/**/*.js', 'app/scripts/**/*.js'],
-                        dest: 'app/dist/js/build.js'
+                dest: 'dist',
+                flow: {
+                    html: {
+                        steps: {
+                            js: ['concat', 'uglifyjs'],
+                            css: ['cssmin']
+                        },
+                        post: {}
                     }
-                ]
+                }
+            },
+            html: 'app/index.html'
+        },
+        
+        usemin: {
+            options: {
+                dirs: ['dist']
+            },
+            html: ['dist/{,*/}*.html'],
+            css: ['dist/css/{,*/}*.css']
+        },
+
+        htmlmin: {
+            dist: {
+                options: {
+                    collapseWhitespace: true,
+                    conservativeCollapse: true,
+                    collapseBooleanAttributes: true,
+                    removeCommentsFromCDATA: true,
+                    removeOptionalTags: true
+                },
+                files: [{
+                    expand: true,
+                    cwd: 'dist',
+                    src: ['*.html', 'views/{,*/}*.html', 'templates/{,*/}*.html'],
+                    dest: 'dist'
+                }]
             }
         },
 
@@ -100,13 +139,9 @@ module.exports = function (grunt) {
         },
 
         watch: {
-            scrips: {
-                files: ['app/scripts/**/*.js'],
-                tasks: ['clean:js', 'angular-builder']
-            },
             css: {
                 files: ['app/sass/**/*.scss'],
-                tasks: ['clean:css', 'copy:fonts', 'sass', 'cssmin']
+                tasks: ['clean:sass', 'copy:fonts', 'sass']
             }
         }
 
@@ -115,12 +150,31 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks("grunt-contrib-sass");
     grunt.loadNpmTasks("grunt-contrib-cssmin");
     grunt.loadNpmTasks("grunt-contrib-jshint");
-    grunt.loadNpmTasks("grunt-angular-builder");
     grunt.loadNpmTasks("grunt-contrib-watch");
     grunt.loadNpmTasks("grunt-contrib-clean");
     grunt.loadNpmTasks("grunt-contrib-copy");
     grunt.loadNpmTasks("grunt-contrib-connect");
+    grunt.loadNpmTasks("grunt-usemin");
+    grunt.loadNpmTasks("grunt-contrib-concat");
+    grunt.loadNpmTasks("grunt-contrib-uglify");
 
-    grunt.registerTask('build', ['clean', 'copy:fonts', 'sass', 'cssmin', 'angular-builder']);
-    grunt.registerTask('w', ['connect', 'clean:app', 'copy:fonts', 'sass', 'cssmin', 'angular-builder', 'watch']);
+    grunt.registerTask('build', [
+        'clean', 
+        'copy:dist', 
+        'sass', 
+        'cssmin',
+        'angular-builder',
+        'useminPrepare',
+        'concat',
+        'uglify',
+        'usemin'
+    ]);
+
+    grunt.registerTask('w', [
+        'connect',
+        'clean:sass',
+        'sass',
+        'copy:fonts',
+        'watch'
+    ]);
 };

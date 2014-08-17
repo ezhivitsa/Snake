@@ -15,15 +15,13 @@
 			menu="login.menu"
 			nav-style="login.navStyle">
 
-			<screen-item 
+			<div 
 				ng-controller="SignInCtrl as signIn" 
 				ng-show="login.menu[1].url == 'signin'">
 
-				{{signIn}}
-
 				<form name="loginForm" ng-submit="signIn.submitForm(loginForm.$valid)" novalidate>
 					<div ng-class="{ 'has-error' : loginForm.username.$invalid && !loginForm.username.$pristine }">
-						<label>Username</label>
+						<label>Username :</label>
 						<input 
 							name="username"
 							type="text" 
@@ -34,7 +32,7 @@
 					</div>
 
 					<div ng-class="{ 'has-error' : loginForm.password.$invalid && !loginForm.password.$pristine }">
-						<label>Password</label>
+						<label>Password :</label>
 						<input 
 							name="password"
 							type="password" 
@@ -50,13 +48,13 @@
 						ng-disabled="loginForm.$invalid">
 					</input>
 				</form>
-			</screen-item>
-			<screen-item 
+			</div>
+			<div 
 				ng-controller="RegisterCtrl as register" 
 				ng-show="login.menu[1].url == 'registration'">
 
 				<form name="registerForm" ng-submit="register.submitForm(registerForm.$valid)" novalidate>
-					<label>Username</label>
+					<label>Username :</label>
 					<input 
 						name="username"
 						type="text" 
@@ -64,7 +62,7 @@
 						required>
 					</input>
 
-					<label>Password</label>
+					<label>Password :</label>
 					<input 
 						name="password"
 						type="password" 
@@ -72,7 +70,7 @@
 						required>
 					</input>
 
-					<label>Confirm Password</label>
+					<label>Confirm Password :</label>
 					<input 
 						name="password"
 						type="password" 
@@ -87,7 +85,7 @@
 						ng-disabled="registerForm.$invalid">
 					</input>
 				</form>
-			</screen-item>
+			</div>
 		</screen-wrapper>		
 	</div>
 

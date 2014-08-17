@@ -70,23 +70,4 @@
 		}
 	}]);
 
-	snakeApp.directive('mySalutation',function(){
-	    return {
-	        restrict:'E',
-	        scope:true,
-	        replace:true,
-	        transclude:true,
-	        template:'<div>Hello<div class="transclude"></div></div>',
-	        link: function (scope, element, attr,controller, linker) {
-	           linker(scope, function(clone){
-	                  element.find(".transclude").append(clone); // add to DOM
-	           });
-	        }
-	    };
-	})
-	.controller('SalutationController',['$scope',function($scope){
-	    this.target = "myStackOverflow";
-	}])
-
-
 })();

@@ -15,28 +15,34 @@
 			menu="gameScreen.menu"
 			nav-style="gameScreen.navStyle">
 
-			<screen-item 
+			<div 
 				ng-controller="SettingsCtrl as settings"
 				ng-show="gameScreen.menu[1].url == 'settings'">
 
 				<label>Difficulty :</label>
-				{{settings}}
 				<wp-select
-					model="settings.userSettings.difficulty"
-					options="settings.userSettings.difficultyOptions">
+					model="settings.difficulty"
+					options="settings.difficultyOptions">
 				</wp-select>
 
-			</screen-item>
+				<label>Speed :</label>
+				<wp-select
+					model="settings.speed"
+					options="settings.speedOptions">
+				</wp-select>
+			</div>
 
-			<screen-item 
+			<div 
 				ng-controler="GameCtrl as game"
 				ng-show="gameScreen.menu[1].url == 'playgame'">
-			</screen-item>
 
-			<screen-item 
+				
+			</div>
+
+			<div 
 				ng-controller="ScoreCtrl as score"
 				ng-show="gameScreen.menu[1].url == 'score'">
-			</screen-item>
+			</div>
 
 		</screen-wrapper>
 	</div>

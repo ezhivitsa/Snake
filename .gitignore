@@ -2,3 +2,6 @@
 /app/vendor
 /.sass-cache
 /app/dist
+/.tmp
+/app/css
+/dist

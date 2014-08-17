@@ -1,17 +1,18 @@
 {
   "name": "snake",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "dependencies": {},
   "devDependencies": {
     "grunt": "latest",
     "grunt-contrib-sass": "latest",
     "grunt-contrib-cssmin": "latest",
+    "grunt-contrib-concat": "latest",
+    "grunt-contrib-uglify": "latest",
     "grunt-contrib-jshint": "latest",
     "grunt-contrib-watch": "latest",
-    "grunt-angular-builder": "latest",
     "grunt-contrib-clean": "latest",
     "grunt-contrib-connect": "latest",
     "grunt-contrib-copy": "latest",
-    "grunt-angular-templates": "latest"
+    "grunt-usemin": "latest"
   }
 }

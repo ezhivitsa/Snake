@@ -159,42 +159,76 @@
 		}
 	]);
 
-	screen.directive('screenItem', function () {
-		return {
-			restrict: 'E',
-			scope: true,
-			// require: 'screenWrapper',
-			replace: true,
-			transclude: true,
-			template: '<div ng-transclude></div>'
-		};
-	});
-
 	screen.directive('wpSelect', function () {
 		return {
 			restrict: 'E',
 			replace: true,
-			transclude: true,
 			templateUrl: 'templates/select.html',
 			scope: {
 				model: '=',
 				options: '='
 			},
 			link: function (scope, element, attrs) {
-				//console.log(scope)
-			}
+				element.children().css({
+					'margin-top': -20 * scope.model + 'px'
+				});
+
+				element.on('click', function () {
+					if ( !element.hasClass('expanded') ) {					
+						var optionsNum = element.children().children().length;
+						element.addClass('expanded');
+
+						TweenLite.to(element[0], 0.4, {
+							css: { height: 4 + 20 * optionsNum } 
+						});
+
+						TweenLite.to(element.children()[0], 0.4, {
+							css: { marginTop: 0 } 
+						});
+					}
+				});
+			},
+			controller: ['$scope', function ($scope) {
+				this.setModel = function (value) {
+					$scope.$apply(function () {
+						$scope.model = value;
+					});
+				}
+			}]
 		};
 	});
 
 	screen.directive('wpOption', function () {
 		return {
 			restrict: 'E',
-			repalce: true,
+			replace: true,
 			transclude: true,
-			require: 'wpSelect',
+			require: '^wpSelect',
 			templateUrl: 'templates/option.html',
 			scope: {
-				model: '='
+				option: '='
+			},
+			link: function (scope, element, attrs, selectCtrl) {
+				var	wpSelect = element.parent(),
+					wpSelectWrapper = wpSelect.parent();
+
+				element.on('click', function () {
+					if ( wpSelectWrapper.hasClass('expanded') ) {
+
+						selectCtrl.setModel(scope.option.number)				
+
+						TweenLite.to(wpSelectWrapper, 0.4, {
+							css: { height: 24 },
+							onComplete: function () {
+								wpSelectWrapper.removeClass('expanded');
+							}
+						});
+
+						TweenLite.to(wpSelect, 0.4, {
+							css: { marginTop: -20 * scope.option.number }
+						});
+					}
+				});
 			}
 		}
 	});
