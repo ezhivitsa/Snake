@@ -1,0 +1,92 @@
+<div class="screen-view" ng-controller="LoginCtrl as login">
+	<nav id="main-nav">
+		<ul ng-style="login.navStyle">
+			<li 
+				ng-repeat="item in login.menu"
+				ng-style="item.style">
+					{{item.name}}
+			</li>
+		</ul>
+	</nav>
+
+	<div ng-controller="ScreenCtrl as screen">
+		<screen-wrapper
+			ng-style="screen.screenStyle"
+			menu="login.menu"
+			nav-style="login.navStyle">
+
+			<div 
+				ng-controller="SignInCtrl as signIn" 
+				ng-show="login.menu[1].url == 'signin'">
+
+				<form name="loginForm" ng-submit="signIn.submitForm(loginForm.$valid)" novalidate>
+					<div ng-class="{ 'has-error' : loginForm.username.$invalid && !loginForm.username.$pristine }">
+						<label>Username :</label>
+						<input 
+							name="username"
+							type="text" 
+							ng-model="signIn.user.username"
+							required>
+						</input>
+						<p ng-show="loginForm.username.$invalid && !loginForm.username.$pristine" class="error">Username is required.</p>
+					</div>
+
+					<div ng-class="{ 'has-error' : loginForm.password.$invalid && !loginForm.password.$pristine }">
+						<label>Password :</label>
+						<input 
+							name="password"
+							type="password" 
+							ng-model="signIn.user.password"
+							required>
+						</input>
+						<p ng-show="loginForm.password.$invalid && !loginForm.password.$pristine" class="error">Password is required.</p>
+					</div>
+
+					<input 
+						type="submit" 
+						value="Sign In"
+						ng-disabled="loginForm.$invalid">
+					</input>
+				</form>
+			</div>
+			<div 
+				ng-controller="RegisterCtrl as register" 
+				ng-show="login.menu[1].url == 'registration'">
+
+				<form name="registerForm" ng-submit="register.submitForm(registerForm.$valid)" novalidate>
+					<label>Username :</label>
+					<input 
+						name="username"
+						type="text" 
+						ng-model="register.user.username"
+						required>
+					</input>
+
+					<label>Password :</label>
+					<input 
+						name="password"
+						type="password" 
+						ng-model="register.user.password"
+						required>
+					</input>
+
+					<label>Confirm Password :</label>
+					<input 
+						name="password"
+						type="password" 
+						ng-model="register.user.confirmPassword"
+						ng-match="register.user.password"
+						required>
+					</input>
+
+					<input 
+						type="submit" 
+						value="Sign In"
+						ng-disabled="registerForm.$invalid">
+					</input>
+				</form>
+			</div>
+		</screen-wrapper>		
+	</div>
+
+</div>
