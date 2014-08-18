@@ -7,16 +7,16 @@ module.exports = function (grunt) {
         pkg: grunt.file.readJSON('package.json'),
 
         clean:  {
-            app: ['dist'],
-            js: ['dist/js/*.js'],
-            css: ['dist/css/*.css'],
-            sass: ['app/css/*.css']
+            app: ['public/dist'],
+            js: ['public/dist/js/*.js'],
+            css: ['public/dist/css/*.css'],
+            sass: ['public/app/css/*.css']
         },
 
         sass: {
             dist: {
                 files: {
-                    'app/css/main.css': ['app/sass/style.scss']
+                    'public/app/css/main.css': ['public/app/sass/style.scss']
                 }
             }
         },
@@ -42,7 +42,7 @@ module.exports = function (grunt) {
             },
             all: {
                 src: [
-                    'app/scripts/**/*.js'
+                    'public/app/scripts/**/*.js'
                 ]
             }
         },
@@ -53,8 +53,8 @@ module.exports = function (grunt) {
                     {
                         expand: true,
                         src: ['fonts/**'],
-                        cwd: 'app/sass/',
-                        dest: 'app/css/'
+                        cwd: 'public/app/sass/',
+                        dest: 'public/app/css/'
                     }
                 ]
             },
@@ -63,8 +63,8 @@ module.exports = function (grunt) {
                     {
                         expand: true,
                         src: ['fonts/**'],
-                        cwd: 'app/sass/',
-                        dest: 'dist/css/'
+                        cwd: 'public/app/sass/',
+                        dest: 'public/dist/css/'
                     },
                     {
                         expand: true,
@@ -74,8 +74,8 @@ module.exports = function (grunt) {
                             'views/{,*/}*.html',
                             'templates/{,*/}*.html'
                         ],
-                        cwd: 'app/',
-                        dest: 'dist/'
+                        cwd: 'public/app/',
+                        dest: 'public/dist/'
                     }
                 ]
             }
@@ -83,7 +83,7 @@ module.exports = function (grunt) {
 
         useminPrepare: {
             options: {
-                dest: 'dist',
+                dest: 'public/dist',
                 flow: {
                     html: {
                         steps: {
@@ -94,15 +94,15 @@ module.exports = function (grunt) {
                     }
                 }
             },
-            html: 'app/index.html'
+            html: 'public/app/index.html'
         },
         
         usemin: {
             options: {
-                dirs: ['dist']
+                dirs: ['public/dist']
             },
-            html: ['dist/{,*/}*.html'],
-            css: ['dist/css/{,*/}*.css']
+            html: ['public/dist/{,*/}*.html'],
+            css: ['public/dist/css/{,*/}*.css']
         },
 
         htmlmin: {
@@ -116,31 +116,32 @@ module.exports = function (grunt) {
                 },
                 files: [{
                     expand: true,
-                    cwd: 'dist',
+                    cwd: 'public/dist',
                     src: ['*.html', 'views/{,*/}*.html', 'templates/{,*/}*.html'],
-                    dest: 'dist'
+                    dest: 'public/dist'
                 }]
             }
         },
 
         connect: {
             options: {
-                port: 9000,
+                port: 8080,
                 // Change this to '0.0.0.0' to access the server from outside.
-                hostname: 'localhost'
+                hostname: '192.168.1.147',
+                //hostname: 'localhost'
             },
 
             dist: {
                 options: {
                     open: true,
-                    base: 'app'
+                    base: 'public/app'
                 }
             }
         },
 
         watch: {
             css: {
-                files: ['app/sass/**/*.scss'],
+                files: ['public/app/sass/**/*.scss'],
                 tasks: ['clean:sass', 'copy:fonts', 'sass']
             }
         }
@@ -161,12 +162,11 @@ module.exports = function (grunt) {
     grunt.registerTask('build', [
         'clean', 
         'copy:dist', 
-        'sass', 
-        'cssmin',
-        'angular-builder',
+        'sass',
         'useminPrepare',
         'concat',
         'uglify',
+        'cssmin',
         'usemin'
     ]);
 

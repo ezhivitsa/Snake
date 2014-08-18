@@ -1,0 +1,10 @@
+<div class="wp-select-wrapper">
+	<div class="wp-select">
+		<wp-option
+			ng-repeat="option in options"
+			option="option"
+			ng-class="option.number == model ? 'active' : ''">
+				{{option.name}}
+		</wp-option>		
+	</div>
+</div>

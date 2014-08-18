@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Snake</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<!-- build:css(public/app) css/main.css -->
+	<link rel="stylesheet" href="css/main.css">
+	<!-- endbuild -->
+</head>
+<body ng-app="snakeApp" ng-controller="AppCtrl">
+	<div ng-view></div>
+	
+	<!-- build:js(public/app) js/vendor.js -->
+	<script src="vendor/angular/angular.js"></script>
+	<script src="vendor/angular-resource/angular-resource.js"></script>
+	<script src="vendor/angular-touch/angular-touch.js"></script>
+    <script src="vendor/angular-route/angular-route.js"></script>
+	<script src="vendor/gsap/src/uncompressed/plugins/CSSPlugin.js"></script>
+	<script src="vendor/gsap/src/uncompressed/easing/EasePack.js"></script>
+	<script src="vendor/gsap/src/uncompressed/Tweenlite.js"></script>
+    <!-- endbuild -->
+
+	<!-- build:js(public/app) js/main.js -->
+	<script src="scripts/app.js"></script>
+	<script src="scripts/game/game.js"></script>
+	<script src="scripts/login/login.js"></script>
+	<script src="scripts/screen/screen.js"></script>
+	<!-- endbuild -->
+</body>
+</html>

@@ -1,7 +1,5 @@
 /node_modules
-/app/vendor
+public/app/vendor
 /.sass-cache
-/app/dist
+public/app/dist
 /.tmp
-/app/css
-/dist
