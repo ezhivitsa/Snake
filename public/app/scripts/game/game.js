@@ -131,7 +131,28 @@
 
 	game.controller('GameCtrl', ['$scope', 
 		function ($scope) {
+			this.isStarted = false;
+			this.isShowField = false;
+			this.field = [];
 
+			var screenWidth = window.innerWidth,
+				screenHeight = window.innerHeight;
+
+			//$scope.$apply(function () {
+				for ( var i = 0; i < Math.floor(screenHeight / 8); i++ ) {
+					this.field[i] = [];
+					for ( var j = 0; j < Math.floor(screenWidth / 8); j++ ) {
+						this.field[i][j] = {
+							isActive: false
+						};
+					}
+				}
+			//});
+
+			this.startGame = function() {
+				this.isStarted = true;
+				this.isShowField = true;
+			}
 		}
 	]);
 

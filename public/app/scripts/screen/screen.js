@@ -3,8 +3,22 @@
 
 	var screen = angular.module('snakeScreen', []);
 
-	screen.factory('screenData', ['$swipe', '$route',
-		function ($swipe, $route) {
+	screen.run(['$route', '$rootScope', '$location', function ($route, $rootScope, $location) {
+	    var original = $location.path;
+	    $location.path = function (path, reload) {
+	        if (reload === false) {
+	            var lastRoute = $route.current;
+	            var un = $rootScope.$on('$locationChangeSuccess', function () {
+	                $route.current = lastRoute;
+	                un();
+	            });
+	        }
+	        return original.apply($location, [path]);
+	    };
+	}]);
+
+	screen.factory('screenData', ['$swipe', '$route', '$location',
+		function ($swipe, $route, $location) {
 			return {
 				screenStyle: {
 					'margin-left': '0px'			
@@ -21,7 +35,7 @@
 								case 1:
 									break;
 								default:
-									menu.concat(menu.splice(0, i));
+									menu.concat(menu.splice(0, i - 1));
 									break;
 							}
 
@@ -56,6 +70,9 @@
 				},
 				offSwipe: function (element) {
 					element['swipe'] = false;
+				},
+				setUrl: function (url) {
+					$location.path($location.path().match(/\/\w+\//)[0] + url, false);				
 				}
 			}
 		}
@@ -131,6 +148,8 @@
 															screenData.screenStyle['margin-left'] = '0px';
 														}
 													});
+
+													screenData.setUrl(scope.menu[1].url)
 													
 												});
 											}
