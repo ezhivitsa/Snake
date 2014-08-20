@@ -46,7 +46,7 @@
 				onSwipe: function (element, callback) {
 					var start;
 
-					element['swipe'] = true;
+					element[0]['swipe'] = true;
 
 					$swipe.bind(element, {
 						start: function(coords) {
@@ -69,7 +69,7 @@
 					});
 				},
 				offSwipe: function (element) {
-					element['swipe'] = false;
+					element[0]['swipe'] = false;
 				},
 				setUrl: function (url) {
 					$location.path($location.path().match(/\/\w+\//)[0] + url, false);				

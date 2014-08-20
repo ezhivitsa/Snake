@@ -129,36 +129,75 @@
 		}
 	]);
 
-	game.controller('GameCtrl', ['$scope', 
-		function ($scope) {
+	game.controller('GameCtrl', ['$scope', 'screenData',
+		function ($scope, screenData) {
 			this.isStarted = false;
 			this.isShowField = false;
 			this.field = [];
-
-			var screenWidth = window.innerWidth,
-				screenHeight = window.innerHeight;
-
-			//$scope.$apply(function () {
-				for ( var i = 0; i < Math.floor(screenHeight / 8); i++ ) {
-					this.field[i] = [];
-					for ( var j = 0; j < Math.floor(screenWidth / 8); j++ ) {
-						this.field[i][j] = {
-							isActive: false
-						};
-					}
-				}
-			//});
 
 			this.startGame = function() {
 				this.isStarted = true;
 				this.isShowField = true;
 			}
+
+			this.setActive = function (line, column, className) {
+				this.field[line][column].isActive = true;
+				this.field[line][column].class = className;
+			}
+
+			this.removeActive = function (line, column) {
+				this.field[line][column].isActive = false;
+				this.field[line][column].class = '';
+			}
+
+			this.startGame = function () {
+				this.isStarted = true;
+				this.isShowField = true;
+
+				this.setActive(lines, Math.round( columns / 2 ), 'active');
+				this.setActive(lines - 1, Math.round( columns / 2 ), 'active');
+				this.setActive(lines - 2, Math.round( columns / 2 ), 'head');
+
+				//debugger
+				console.log(angular.element(document.querySelector('.screen-wrapper')))
+				screenData.offSwipe(angular.element(document.querySelector('.screen-wrapper')));
+			}
+
 		}
 	]);
 
 	game.controller('ScoreCtrl', ['$scope', 
 		function ($scope) {
 
+		}
+	]);
+
+	game.directive('field', ['screenData', 
+		function (screenData) {
+			return {
+				restrict: 'E',
+				replace: true,
+				scope: {
+					model: '='
+				},
+				link: function (scope, element, attrs) {
+					scope.$apply(function () {
+						var screenWidth = window.innerWidth,
+							screenHeight = window.innerHeight,
+							lines = Math.floor(screenHeight / 8) - 1,
+							columns = Math.floor(screenWidth / 8) - 1;
+
+						for ( var i = 0; i <= lines; i++ ) {
+							this.field[i] = [];
+							for ( var j = 0; j <= columns; j++ ) {
+								this.field[i][j] = {
+									isActive: false
+								};
+							}
+						}
+					});
+				}
+			};
 		}
 	]);
 })();

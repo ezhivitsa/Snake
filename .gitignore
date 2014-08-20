@@ -3,3 +3,4 @@ public/app/vendor
 /.sass-cache
 public/app/dist
 /.tmp
+/public/app/css

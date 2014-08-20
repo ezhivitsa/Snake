@@ -512,8 +512,9 @@ body {
           body .screen-view .game-field table td.active {
             background: black;
             border-radius: 5px; }
-          body .screen-view .game-field table td.acitve.head {
-            background: #e50303; }
+          body .screen-view .game-field table td.head {
+            background: #e50303;
+            border-radius: 5px; }
     body .screen-view .screen-wrapper {
       width: 100%;
       height: 100%;
