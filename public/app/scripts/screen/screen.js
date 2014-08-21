@@ -46,27 +46,29 @@
 				onSwipe: function (element, callback) {
 					var start;
 
-					element[0]['swipe'] = true;
-
-					$swipe.bind(element, {
-						start: function(coords) {
-							start = coords;
-							( callback[0] ) && callback[0](start, coords);
-						},
-						move: function (coords) {
-							if ( element['swipe'] ) {
+					if ( element[0]['swipe'] == undefined ) {
+						$swipe.bind(element, {
+							start: function(coords) {
+								start = coords;
 								( callback[0] ) && callback[0](start, coords);
-							}
-						},
-						end: function (coords) {
-							if ( element['swipe'] ) {
-								( callback[1] ) && callback[1](start, coords);
-							}
-						},
-						cancel: function (coords) {
+							},
+							move: function (coords) {
+								if ( element[0]['swipe'] ) {
+									( callback[0] ) && callback[0](start, coords);
+								}
+							},
+							end: function (coords) {
+								if ( element[0]['swipe'] ) {
+									( callback[1] ) && callback[1](start, coords);
+								}
+							},
+							cancel: function (coords) {
 
-						}
-					});
+							}
+						});
+					}
+
+					element[0]['swipe'] = true;
 				},
 				offSwipe: function (element) {
 					element[0]['swipe'] = false;

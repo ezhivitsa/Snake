@@ -65,6 +65,124 @@
 		return settings;
 	});
 
+	game.constant('defaulSettings', {
+		startInterval: 450,
+		intervalStepSpeed: 50,
+		gameSpeedStep: 10
+	});
+
+	game.service('swipeControl', ['$swipe',
+		function ($swipe) {
+			this.onSwipe = function (element, callbacks) {
+				if ( element[0].listenSwipe == undefined && callbacks instanceof Array) {
+					var start = null;
+
+					$swipe.bind(element, {
+						start: function (coords) {
+							start = coords;
+						},
+						move: function (current) {
+							if ( element[0].listenSwipe ) {
+								var tmp = {
+									x: current.x - start.x,
+									y: current.y - start.y
+								}
+
+								if ( (tmp.x > 0 && tmp.y < 0 && tmp.x >= -tmp.y) || (tmp.x > 0 && tmp.y >= 0 && tmp.x > tmp.y) ) {
+									//right swipe
+									console.log('right')
+								}
+								else if ( (tmp.x >= 0 && tmp.y < 0 && -tmp.y > tmp.x) || (tmp.x < 0 && tmp.y < 0 && tmp.x >= tmp.y) ) {
+									//top swipe
+									console.log('top')
+								}
+								else if ( (tmp.x < 0 && tmp.y <= 0 && tmp.x < tmp.y) || (tmp.x < 0 && tmp.y > 0 && -tmp.x >= tmp.y) ) {
+									//left swipe
+									console.log('left')
+								}
+								else {
+									console.log('bottom')
+								}
+
+								start = current;
+							}
+						},
+						end: function (coords) {
+							if ( element[0].listenSwipe ) {
+							}
+						},
+						cancel: function (coords) {
+
+						}
+					});
+				}
+
+				element[0].listenSwipe = true;
+			}
+
+			this.offSwipe = function (element) {
+				element[0].listenSwipe = false;
+			}
+		}
+	]);
+
+	game.factory('snake', ['settings', 'defaulSettings', '$interval', 'swipeControl',
+		function (settings, defaulSettings, $interval, swipeControl) {
+			var screenWidth = window.innerWidth,
+				screenHeight = window.innerHeight,
+				lines = Math.floor(screenHeight / 8) - 1,
+				columns = Math.floor(screenWidth / 8) - 1,
+				field = [],
+				gameInterval = null,
+				element = null;
+
+			for ( var i = 0; i <= lines; i++ ) {
+				field[i] = [];
+				for ( var j = 0; j <= columns; j++ ) {
+					field[i][j] = {
+						isActive: false
+					};
+				}
+			}
+
+			function clearField () {
+				for ( var i = 0; i <= lines; i++ ) {
+					for ( var j = 0; j <= columns; j++ ) {
+						field[i][j].isActive = false;
+						field[i][j].class = '';
+					}
+				}
+			}
+
+			return {
+				lines: lines,
+				colmns: columns,
+				field: field,
+				setActive: function (line, column, className) {
+					field[line][column].isActive = true;
+					field[line][column].class = className;
+				},
+				setStartPosition: function () {
+					clearField();
+
+					this.setActive(lines, Math.round( columns / 2 ), 'active');
+					this.setActive(lines - 1, Math.round( columns / 2 ), 'active');
+					this.setActive(lines - 2, Math.round( columns / 2 ), 'head');
+				},
+				setFieldElement: function (el) {
+					element = el;
+				},
+				startGame: function () {
+					swipeControl.onSwipe(element, []);
+					
+					//gameInterval = $inteval(function () {
+					
+					//}, defaulSettings.startInterval - settings.speed * defaulSettings.intervalStepSpeed);
+				}
+			};
+		}
+	]);
+
 	game.controller('GameScreenCtrl', ['$scope', 
 		function ($scope) {
 			this.menu = [
@@ -129,21 +247,10 @@
 		}
 	]);
 
-	game.controller('GameCtrl', ['$scope', 'screenData',
-		function ($scope, screenData) {
+	game.controller('GameCtrl', ['$scope', 'screenData', 'snake',
+		function ($scope, screenData, snake) {
 			this.isStarted = false;
 			this.isShowField = false;
-			this.field = [];
-
-			this.startGame = function() {
-				this.isStarted = true;
-				this.isShowField = true;
-			}
-
-			this.setActive = function (line, column, className) {
-				this.field[line][column].isActive = true;
-				this.field[line][column].class = className;
-			}
 
 			this.removeActive = function (line, column) {
 				this.field[line][column].isActive = false;
@@ -154,15 +261,10 @@
 				this.isStarted = true;
 				this.isShowField = true;
 
-				this.setActive(lines, Math.round( columns / 2 ), 'active');
-				this.setActive(lines - 1, Math.round( columns / 2 ), 'active');
-				this.setActive(lines - 2, Math.round( columns / 2 ), 'head');
-
-				//debugger
-				console.log(angular.element(document.querySelector('.screen-wrapper')))
-				screenData.offSwipe(angular.element(document.querySelector('.screen-wrapper')));
+				screenData.offSwipe(angular.element(document.querySelector('.screen-wrapper')).parent());
+				snake.setStartPosition();
+				snake.startGame();
 			}
-
 		}
 	]);
 
@@ -172,30 +274,15 @@
 		}
 	]);
 
-	game.directive('field', ['screenData', 
-		function (screenData) {
+	game.directive('field', ['screenData', 'snake',
+		function (screenData, snake) {
 			return {
 				restrict: 'E',
 				replace: true,
-				scope: {
-					model: '='
-				},
+				templateUrl: 'templates/field.html',
 				link: function (scope, element, attrs) {
-					scope.$apply(function () {
-						var screenWidth = window.innerWidth,
-							screenHeight = window.innerHeight,
-							lines = Math.floor(screenHeight / 8) - 1,
-							columns = Math.floor(screenWidth / 8) - 1;
-
-						for ( var i = 0; i <= lines; i++ ) {
-							this.field[i] = [];
-							for ( var j = 0; j <= columns; j++ ) {
-								this.field[i][j] = {
-									isActive: false
-								};
-							}
-						}
-					});
+					scope.field = snake.field;
+					snake.setFieldElement(element);
 				}
 			};
 		}
