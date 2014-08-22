@@ -66,7 +66,9 @@
 					End Game
 				</button>
 
-				<field ng-show="game.isShowField"></field>
+				<field
+					hm-doubletap="game.pauseGame()" 
+					ng-show="game.isShowField"></field>
 				
 			</div>
 

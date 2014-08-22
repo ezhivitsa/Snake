@@ -71,26 +71,44 @@
 		gameSpeedStep: 10
 	});
 
-	game.service('swipeControl', ['$swipe',
-		function ($swipe) {
+	game.service('swipeControl', [
+		function () {
+			var mc = null,
+				events = null;
+
+			// 0 - up
+			// 1 - right
+			// 2 - down
+			// 3 - left 
+			this.direction = 0;
+
 			this.onSwipe = function (element, callbacks) {
-				if ( element[0].listenSwipe == undefined && callbacks instanceof Array) {
+				if ( callbacks instanceof Array) {
 					var start = null;
 
-					$swipe.bind(element, {
-						start: function (coords) {
-							start = coords;
+					mc = mc || new Hammer(element[0]);
+					events = events || {
+						start: function (ev) {
+							start = {
+								x: ev.pointers[0].clientX,
+								y: ev.pointers[0].clientY
+							};
 						},
-						move: function (current) {
-							if ( element[0].listenSwipe ) {
-								var tmp = {
+						move: function (ev) {
+							var current = {
+									x: ev.pointers[0].clientX,
+									y: ev.pointers[0].clientY
+								},
+								tmp = {
 									x: current.x - start.x,
 									y: current.y - start.y
-								}
+								};
 
+							if ( Math.sqrt( Math.pow(tmp.x, 2) + Math.pow(tmp.y, 2) ) > 50 ) {
 								if ( (tmp.x > 0 && tmp.y < 0 && tmp.x >= -tmp.y) || (tmp.x > 0 && tmp.y >= 0 && tmp.x > tmp.y) ) {
 									//right swipe
 									console.log('right')
+									element.
 								}
 								else if ( (tmp.x >= 0 && tmp.y < 0 && -tmp.y > tmp.x) || (tmp.x < 0 && tmp.y < 0 && tmp.x >= tmp.y) ) {
 									//top swipe
@@ -107,21 +125,22 @@
 								start = current;
 							}
 						},
-						end: function (coords) {
-							if ( element[0].listenSwipe ) {
-							}
-						},
-						cancel: function (coords) {
-
+						end: function (ev) {
 						}
-					});
-				}
+					};
 
-				element[0].listenSwipe = true;
+					mc.get('pan').set({ direction: Hammer.DIRECTION_ALL });
+
+					mc.on('panstart', events.start);
+					mc.on('panmove', events.move);
+					mc.on('panend', events.end);
+				}
 			}
 
-			this.offSwipe = function (element) {
-				element[0].listenSwipe = false;
+			this.offSwipe = function () {
+				mc.off('panstart', events.start);
+				mc.off('panmove', events.move);
+				mc.off('panend', events.end);
 			}
 		}
 	]);
@@ -171,13 +190,20 @@
 				},
 				setFieldElement: function (el) {
 					element = el;
+					element.bind('swipe', function(e) {
+						console.log(e.direction)
+					});
 				},
 				startGame: function () {
 					swipeControl.onSwipe(element, []);
-					
-					//gameInterval = $inteval(function () {
-					
-					//}, defaulSettings.startInterval - settings.speed * defaulSettings.intervalStepSpeed);
+						
+					swipe.direction.$watch(function () {
+
+					});
+
+					gameInterval = $inteval(function () {
+						
+					}, defaulSettings.startInterval - settings.speed * defaulSettings.intervalStepSpeed);
 				}
 			};
 		}
@@ -261,9 +287,22 @@
 				this.isStarted = true;
 				this.isShowField = true;
 
-				screenData.offSwipe(angular.element(document.querySelector('.screen-wrapper')).parent());
+				screenData.offSwipe();
 				snake.setStartPosition();
 				snake.startGame();
+			}
+
+			this.pauseGame = function () {
+				this.isShowField = false;
+				screenData.onSwipe();
+			}
+
+			this.resumeGame = function () {
+
+			}
+
+			this.endGame = function () {
+
 			}
 		}
 	]);
@@ -280,10 +319,30 @@
 				restrict: 'E',
 				replace: true,
 				templateUrl: 'templates/field.html',
+				//scope: {},
 				link: function (scope, element, attrs) {
 					scope.field = snake.field;
 					snake.setFieldElement(element);
-				}
+
+					scope.swipe = {
+						up: function () {
+							console.log('up');
+						},
+						right: function () {
+							console.log('right');
+						},
+						down: function () {
+							console.log('down');
+						},
+						left: function () {
+							console.log('left');
+						}
+
+					};
+
+				}//,
+				//controller: ['$scope', function ($scope) {
+				//}]
 			};
 		}
 	]);

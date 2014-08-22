@@ -17,8 +17,11 @@
 	    };
 	}]);
 
-	screen.factory('screenData', ['$swipe', '$route', '$location',
-		function ($swipe, $route, $location) {
+	screen.factory('screenData', ['$route', '$location',
+		function ($route, $location) {
+			var mc = null,
+				events = null;
+
 			return {
 				screenStyle: {
 					'margin-left': '0px'			
@@ -45,33 +48,42 @@
 				},
 				onSwipe: function (element, callback) {
 					var start;
+					mc = mc || new Hammer(element[0]);
+					events = events || {
+						start: function (ev) {
+							start = {
+								x: ev.pointers[0].clientX,
+								y: ev.pointers[0].clientY
+							};
 
-					if ( element[0]['swipe'] == undefined ) {
-						$swipe.bind(element, {
-							start: function(coords) {
-								start = coords;
-								( callback[0] ) && callback[0](start, coords);
-							},
-							move: function (coords) {
-								if ( element[0]['swipe'] ) {
-									( callback[0] ) && callback[0](start, coords);
-								}
-							},
-							end: function (coords) {
-								if ( element[0]['swipe'] ) {
-									( callback[1] ) && callback[1](start, coords);
-								}
-							},
-							cancel: function (coords) {
+							( callback[0] ) && callback[0](start, start);
+						},
+						end: function (ev) {
+							( callback[1] ) && callback[1](start, {
+								x: ev.pointers[0].clientX,
+								y: ev.pointers[0].clientY
+							});							
+						},
+						move: function (ev) {
+							( callback[0] ) && callback[0](start, {
+								x: ev.pointers[0].clientX,
+								y: ev.pointers[0].clientY
+							});							
+						}
+					};
 
-							}
-						});
-					}
+					mc.get('pan').set({ direction: Hammer.DIRECTION_ALL });
 
-					element[0]['swipe'] = true;
+					mc.on('panstart', events.start);
+					mc.on('panmove', events.move);
+					mc.on('panend', events.end);
 				},
-				offSwipe: function (element) {
-					element[0]['swipe'] = false;
+				offSwipe: function () {
+					if (mc) {
+						mc.off('panstart', events.start);
+						mc.off('panmove', events.move);
+						mc.off('panend', events.end);
+					}
 				},
 				setUrl: function (url) {
 					$location.path($location.path().match(/\/\w+\//)[0] + url, false);				

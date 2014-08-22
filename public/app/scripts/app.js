@@ -3,7 +3,7 @@
 
 	var snakeApp = angular.module('snakeApp', [
 		'ngRoute',
-		'ngTouch',
+		'hmTouchEvents',
 
 		'snakeScreen',
 		'snakeGame',

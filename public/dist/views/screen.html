@@ -39,9 +39,36 @@
 			</div>
 
 			<div 
-				ng-controler="GameCtrl as game"
+				ng-controller="GameCtrl as game"
 				ng-show="gameScreen.menu[1].url == 'playgame'">
 
+				<p ng-show="!game.isStarted">To start game press the button "Start Game".</p>
+
+				<p ng-show="game.isStarted">To resume game press the button "Resume Game".</p>
+				<p ng-show="game.isStarted">To end game press the button "End Game".</p>
+				<p>To pause game double tap on the screen.</p>
+
+				<button 
+					ng-click="game.startGame()"
+					ng-show="!game.isStarted">
+					Start Game
+				</button>
+
+				<button 
+					ng-click="game.resumeGame()"
+					ng-show="game.isStarted">
+					Resume Game
+				</button>
+
+				<button 
+					ng-click="game.endGame()"
+					ng-show="game.isStarted">
+					End Game
+				</button>
+
+				<field
+					hm-doubletap="game.pauseGame()" 
+					ng-show="game.isShowField"></field>
 				
 			</div>
 
