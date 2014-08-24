@@ -42,6 +42,9 @@
 				ng-controller="GameCtrl as game"
 				ng-show="gameScreen.menu[1].url == 'playgame'">
 
+				<p ng-show="game.win">You win!!!!<br />Your score you can see on the page "Score".</p>
+				<p ng-show="game.lose">You lose(((<br />Your score you can see on the page "Score".</p>
+				
 				<p ng-show="!game.isStarted">To start game press the button "Start Game".</p>
 
 				<p ng-show="game.isStarted">To resume game press the button "Resume Game".</p>

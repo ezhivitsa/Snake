@@ -7,6 +7,7 @@ $black: #000;
 $gray: #6b6b6b;
 $red: #e50303;
 $green: #24dd00;
+$blue: #2e33ff;
 
 $font1: 42px;
 $font2: 15px;
@@ -73,13 +74,19 @@ body {
 					height: 8px;
 					background: $white;
 
-					&.active {
+					&.active,
+					&.end {
 						background: $black;
 						border-radius: 5px;
 					}
 
 					&.head {
 						background: $red;
+						border-radius: 5px;
+					}
+
+					&.food {
+						background: $blue;
 						border-radius: 5px;
 					}
 				}
