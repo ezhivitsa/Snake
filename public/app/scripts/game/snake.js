@@ -29,6 +29,7 @@
 			var field = [],
 				gameInterval = null,
 				element = null,
+				iterations = 0,
 				snakeDirection = 0,
 				tmpDirection = 0,
 				headPosition = null,
@@ -140,6 +141,7 @@
 				},
 				setStartPosition: function () {
 					snakeDirection = tmpDirection = defaulSettings.startDirection;
+					iterations = 0;
 
 					clearField();
 
@@ -193,7 +195,7 @@
 							self.stopGame("lose", score.getScore());
 							score.publishScore();
 						}
-						else {
+						else {							
 							var lastActive = activePositions[activePositions.length - 1];
 
 							if (field[headLine][headColumn].class === classNames.food) {
@@ -213,11 +215,20 @@
 								setActive(headLine, headColumn, classNames.head);
 								setActive(lastActive[0], lastActive[1], classNames.end);								
 							}
+
+							// increasing of the speed of the snake
+							if ( iterations % 100 === 0 ) {
+								var increaseValue = ( defaulSettings.startInterval - settings.speed * defaulSettings.intervalStepSpeed ) / (iterations / 100 + 10);
+							}
 						}
 
 						snakeDirection = tmpDirection;
+						iterations++;
 
 					}, defaulSettings.startInterval - settings.speed * defaulSettings.intervalStepSpeed);
+
+					console.log(gameInterval);
+					console.log($interval);
 				},
 				stopGame: function (result, score) {
 					$interval.cancel(gameInterval);
