@@ -8,7 +8,7 @@
     "angular-route": "latest",
     "normalize-scss": "latest",
     "gsap": "latest",
-    "angular-hammer": "latest"
+    "angular-gestures": "latest"
   },
   "appPath": "app"
 }

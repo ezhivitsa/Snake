@@ -2,8 +2,7 @@
 	'use scrict';
 
 	var game = angular.module('snakeGame', [
-		'snakeControl',
-		'swipeControl'
+		'snakeControl'
 	]);
 
 	game.factory('settings', function () {
@@ -75,42 +74,42 @@
 					name: "score",
 					url: "score",
 					style: {
-						width: '108px'
+						width: '118px'
 					}
 				},
 				{
 					name: "settings",
 					url: "settings",
 					style: {
-						width: '155px'
+						width: '165px'
 					}
 				},
 				{
 					name: "play game",
 					url: "playgame",
 					style: {
-						width: '198px'
+						width: '208px'
 					}
 				},
 				{
 					name: "score",
 					url: "score",
 					style: {
-						width: '108px'
+						width: '118px'
 					}
 				},
 				{
 					name: "settings",
 					url: "settings",
 					style: {
-						width: '155px'
+						width: '165px'
 					}
 				},
 				{
 					name: "play game",
 					url: "playgame",
 					style: {
-						width: '198px'
+						width: '208px'
 					}
 				}
 			];
@@ -149,15 +148,18 @@
 				this.isShowField = true;
 				this.win = false;
 				this.lose = false;
+				this.score = 0;
 
-				screenData.offSwipe();
+				screenData.isDraggble = false;
+
 				var self = this;
-				snake.setStopCallback(function (result) {
+				snake.setStopCallback(function (result, score) {
 					self[result] = true;
 
 					self.isStarted = false;
 					self.isShowField = false;
-					screenData.onSwipe();
+					self.score = score;
+					screenData.isDraggble = true;
 				});
 				snake.setStartPosition();
 				snake.startGame();
@@ -165,7 +167,7 @@
 
 			this.pauseGame = function () {
 				this.isShowField = false;
-				screenData.onSwipe();
+				screenData.isDraggble = true;
 				snake.stopGame();
 			}
 
@@ -197,25 +199,23 @@
 					scope.field = snake.field;
 					snake.setFieldElement(element);
 
-					scope.swipe = {
-						up: function () {
-							console.log('up');
-						},
-						right: function () {
-							console.log('right');
-						},
-						down: function () {
-							console.log('down');
-						},
-						left: function () {
-							console.log('left');
+					scope.swipeEvent = function (e) {
+						switch ( e.gesture.direction ) {
+							case "up":
+								element.triggerHandler({ type: 'swipe', direction: 0 });
+								break;
+							case "right":
+								element.triggerHandler({ type: 'swipe', direction: 1 });
+								break;
+							case "down":
+								element.triggerHandler({ type: 'swipe', direction: 2 });
+								break;
+							case "left":
+								element.triggerHandler({ type: 'swipe', direction: 3 });
+								break;
 						}
-
-					};
-
-				}//,
-				//controller: ['$scope', function ($scope) {
-				//}]
+					}
+				}
 			};
 		}
 	]);

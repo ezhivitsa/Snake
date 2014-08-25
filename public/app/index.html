@@ -9,6 +9,7 @@
 	<!-- endbuild -->
 </head>
 <body ng-app="snakeApp" ng-controller="AppCtrl">
+
 	<div ng-view></div>
 	
 	<!-- build:js(public/app) js/vendor.js -->
@@ -18,15 +19,13 @@
 	<script src="vendor/gsap/src/uncompressed/plugins/CSSPlugin.js"></script>
 	<script src="vendor/gsap/src/uncompressed/easing/EasePack.js"></script>
 	<script src="vendor/gsap/src/uncompressed/Tweenlite.js"></script>
-	<script src="vendor/hammerjs/hammer.js"></script>
-	<script src="vendor/angular-hammer/angular-hammer.js"></script>
+	<script src="vendor/angular-gestures/gestures.js"></script>
     <!-- endbuild -->
 
 	<!-- build:js(public/app) js/main.js -->
 	<script src="scripts/app.js"></script>
 	<script src="scripts/game/score.js"></script>
 	<script src="scripts/game/snake.js"></script>
-	<script src="scripts/game/swipe.js"></script>
 	<script src="scripts/game/game.js"></script>
 	<script src="scripts/login/login.js"></script>
 	<script src="scripts/screen/screen.js"></script>

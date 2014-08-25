@@ -380,97 +380,84 @@ td,
 th {
   padding: 0; }
 
-html {
-  font-size: 62.5%; }
-
-@media (max-width: 600px) {
-  html {
-    font-size: 61%; } }
-@media (max-width: 550px) {
-  html {
-    font-size: 54%; } }
-@media (max-width: 500px) {
-  html {
-    font-size: 47%; } }
-@media (max-width: 450px) {
-  html {
-    font-size: 43%; } }
-@media (max-width: 400px) {
-  html {
-    font-size: 37%; } }
-@media (max-width: 350px) {
-  html {
-    font-size: 33%; } }
-@media (max-width: 320px) {
-  html {
-    font-size: 31%; } }
 @font-face {
   font-family: 'segoeui';
   src: url("fonts/Segoe UI/segoeui.ttf") format("truetype");
   font-weight: normal;
   font-style: normal; }
+
 @font-face {
   font-family: 'segoeuib';
   src: url("fonts/Segoe UI/segoeuib.ttf") format("truetype");
   font-weight: normal;
   font-style: normal; }
+
 @font-face {
   font-family: 'segoeuii';
   src: url("fonts/Segoe UI/segoeuii.ttf") format("truetype");
   font-weight: normal;
   font-style: normal; }
+
 @font-face {
   font-family: 'segoeuil';
   src: url("fonts/Segoe UI/segoeuil.ttf") format("truetype");
   font-weight: normal;
   font-style: normal; }
+
 @font-face {
   font-family: 'segoeuiz';
   src: url("fonts/Segoe UI/segoeuiz.ttf") format("truetype");
   font-weight: normal;
   font-style: normal; }
+
 @font-face {
   font-family: 'seguisb';
   src: url("fonts/Segoe UI/seguisb.ttf") format("truetype");
   font-weight: normal;
   font-style: normal; }
+
 @font-face {
   font-family: 'weblysleekuil';
   src: url("fonts/weblysleek_ui/weblysleekuil.ttf") format("truetype");
   font-weight: normal;
   font-style: normal; }
+
 @font-face {
   font-family: 'weblysleekuili';
   src: url("fonts/weblysleek_ui/weblysleekuili.ttf") format("truetype");
   font-weight: normal;
   font-style: normal; }
+
 @font-face {
   font-family: 'weblysleekuisb';
   src: url("fonts/weblysleek_ui/weblysleekuisb.ttf") format("truetype");
   font-weight: normal;
   font-style: normal; }
+
 @font-face {
   font-family: 'weblysleekuisbi';
   src: url("fonts/weblysleek_ui/weblysleekuisbi.ttf") format("truetype");
   font-weight: normal;
   font-style: normal; }
+
 @font-face {
   font-family: 'weblysleekuisl';
   src: url("fonts/weblysleek_ui/weblysleekuisl.ttf") format("truetype");
   font-weight: normal;
   font-style: normal; }
+
 @font-face {
   font-family: 'weblysleekuisli';
   src: url("fonts/weblysleek_ui/weblysleekuisli.ttf") format("truetype");
   font-weight: normal;
   font-style: normal; }
+
 body {
-  background: #000;
-  padding: 18px 13px;
-  overflow: hidden; }
+  background: black;
+  padding: 18px 13px; }
   body #main-nav {
-    width: 100%;
-    overflow: hidden; }
+    overflow: hidden;
+    width: 100%; }
     body #main-nav ul {
       list-style-type: none;
       margin: 0;
@@ -484,96 +471,94 @@ body {
         font-family: segoeui; }
         body #main-nav ul li:nth-child(2) {
           color: white; }
-  body .screen-view {
-    overflow: hidden; }
-    body .screen-view > div {
-      height: 100%;
-      position: fixed;
-      top: 0px;
-      left: 0;
-      right: 0;
-      padding: 75px 13px 18px 13px;
-      box-sizing: border-box; }
-    body .screen-view .game-field {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: white; }
-      body .screen-view .game-field table {
-        width: 100%;
-        height: 100%;
-        border: 1px solid black; }
-        body .screen-view .game-field table td {
-          width: 8px;
-          height: 8px;
-          background: white; }
-          body .screen-view .game-field table td.active, body .screen-view .game-field table td.end {
-            background: black;
-            border-radius: 5px; }
-          body .screen-view .game-field table td.head {
-            background: #e50303;
-            border-radius: 5px; }
-          body .screen-view .game-field table td.food {
-            background: #2e33ff;
-            border-radius: 5px; }
-    body .screen-view .screen-wrapper {
+  body .screen-view > div {
+    height: 100%;
+    position: fixed;
+    top: 0px;
+    left: 0;
+    right: 0; }
+  body .screen-view .game-field {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    background: white; }
+    body .screen-view .game-field table {
       width: 100%;
-      height: 100%;
-      overflow: auto; }
-      body .screen-view .screen-wrapper > div {
-        width: 100%; }
-    body .screen-view label {
-      display: block;
-      font-family: segoeui;
-      font-size: 12px;
-      color: white;
-      margin-bottom: 6px; }
-    body .screen-view input[type="text"], body .screen-view [type="text"].wp-select-wrapper,
-    body .screen-view input[type="password"],
-    body .screen-view [type="password"].wp-select-wrapper {
-      width: 100%; }
-    body .screen-view input, body .screen-view .wp-select-wrapper,
-    body .screen-view button {
-      display: block;
-      height: 24px;
-      box-sizing: border-box;
-      border: 2px solid white;
-      color: white;
-      background: black;
-      font-size: 15px;
-      margin-bottom: 14px;
-      padding-left: 5px;
-      box-sizing: border-box; }
-    body .screen-view div.has-error input, body .screen-view div.has-error .wp-select-wrapper {
-      margin-bottom: 2px; }
-    body .screen-view div.has-error .error {
-      color: #e50303;
-      font-size: 12px;
-      margin: 0 0 14px; }
-    body .screen-view p {
-      color: white;
-      font-size: 15px; }
-    body .screen-view input[disabled="disabled"], body .screen-view [disabled="disabled"].wp-select-wrapper {
-      border: 2px solid #6b6b6b;
-      color: #6b6b6b; }
-    body .screen-view .wp-select-wrapper {
-      overflow: hidden;
-      padding-left: 0; }
-      body .screen-view .wp-select-wrapper .wp-option {
-        line-height: 20px;
-        height: 20px;
-        padding-left: 5px;
-        -webkit-transition: 0.4s all;
-        transition: 0.4s all; }
-      body .screen-view .wp-select-wrapper.no-clickable {
-        border-color: #24dd00;
+      height: 90%;
+      border: 1px solid black; }
+      body .screen-view .game-field table td {
+        width: 8px;
+        height: 8px;
         background: white; }
-        body .screen-view .wp-select-wrapper.no-clickable .wp-option.active {
-          color: #24dd00; }
-        body .screen-view .wp-select-wrapper.no-clickable .wp-option {
-          color: black; }
-      body .screen-view .wp-select-wrapper.expanded .wp-option {
-        height: 27px;
-        padding-top: 8px; }
+        body .screen-view .game-field table td.active, body .screen-view .game-field table td.end {
+          background: black;
+          border-radius: 5px; }
+        body .screen-view .game-field table td.head {
+          background: #e50303;
+          border-radius: 5px; }
+        body .screen-view .game-field table td.food {
+          background: #2e33ff;
+          border-radius: 5px; }
+  body .screen-view .screen-wrapper {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    padding: 75px 13px 18px 13px;
+    box-sizing: border-box; }
+    body .screen-view .screen-wrapper > div {
+      width: 100%; }
+  body .screen-view label {
+    display: block;
+    font-family: segoeui;
+    font-size: 12px;
+    color: white;
+    margin-bottom: 6px; }
+  body .screen-view input[type="text"], body .screen-view [type="text"].wp-select-wrapper,
+  body .screen-view input[type="password"],
+  body .screen-view [type="password"].wp-select-wrapper {
+    width: 100%; }
+  body .screen-view input, body .screen-view .wp-select-wrapper,
+  body .screen-view button {
+    display: block;
+    height: 24px;
+    box-sizing: border-box;
+    border: 2px solid white;
+    color: white;
+    background: black;
+    font-size: 15px;
+    margin-bottom: 14px;
+    padding-left: 5px;
+    box-sizing: border-box; }
+  body .screen-view div.has-error input, body .screen-view div.has-error .wp-select-wrapper {
+    margin-bottom: 2px; }
+  body .screen-view div.has-error .error {
+    color: #e50303;
+    font-size: 12px;
+    margin: 0 0 14px; }
+  body .screen-view p {
+    color: white;
+    font-size: 15px; }
+  body .screen-view input[disabled="disabled"], body .screen-view [disabled="disabled"].wp-select-wrapper {
+    border: 2px solid #6b6b6b;
+    color: #6b6b6b; }
+  body .screen-view .wp-select-wrapper {
+    overflow: hidden;
+    padding-left: 0; }
+    body .screen-view .wp-select-wrapper .wp-option {
+      line-height: 20px;
+      height: 20px;
+      padding-left: 5px;
+      -webkit-transition: 0.4s all;
+      transition: 0.4s all; }
+    body .screen-view .wp-select-wrapper.no-clickable {
+      border-color: #24dd00;
+      background: white; }
+      body .screen-view .wp-select-wrapper.no-clickable .wp-option.active {
+        color: #24dd00; }
+      body .screen-view .wp-select-wrapper.no-clickable .wp-option {
+        color: black; }
+    body .screen-view .wp-select-wrapper.expanded .wp-option {
+      height: 27px;
+      padding-top: 8px; }

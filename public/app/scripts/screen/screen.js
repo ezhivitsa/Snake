@@ -23,6 +23,7 @@
 				events = null;
 
 			return {
+				isDraggble: true,
 				screenStyle: {
 					'margin-left': '0px'			
 				},
@@ -46,45 +47,6 @@
 						}
 					}
 				},
-				onSwipe: function (element, callback) {
-					var start;
-					mc = mc || new Hammer(element[0]);
-					events = events || {
-						start: function (ev) {
-							start = {
-								x: ev.pointers[0].clientX,
-								y: ev.pointers[0].clientY
-							};
-
-							( callback[0] ) && callback[0](start, start);
-						},
-						end: function (ev) {
-							( callback[1] ) && callback[1](start, {
-								x: ev.pointers[0].clientX,
-								y: ev.pointers[0].clientY
-							});							
-						},
-						move: function (ev) {
-							( callback[0] ) && callback[0](start, {
-								x: ev.pointers[0].clientX,
-								y: ev.pointers[0].clientY
-							});							
-						}
-					};
-
-					mc.get('pan').set({ direction: Hammer.DIRECTION_ALL });
-
-					mc.on('panstart', events.start);
-					mc.on('panmove', events.move);
-					mc.on('panend', events.end);
-				},
-				offSwipe: function () {
-					if (mc) {
-						mc.off('panstart', events.start);
-						mc.off('panmove', events.move);
-						mc.off('panend', events.end);
-					}
-				},
 				setUrl: function (url) {
 					$location.path($location.path().match(/\/\w+\//)[0] + url, false);				
 				}
@@ -95,6 +57,7 @@
 	screen.controller('ScreenCtrl', ['$scope', 'screenData',
 		function ($scope, screenData) {
 			this.screenStyle = screenData.screenStyle;
+			this.isDraggble = screenData.isDraggble;
 		}
 	]);
 
@@ -115,78 +78,81 @@
 					screenData.setActive(scope.menu);
 					scope.navStyle['transform'] = 'translateX(-' + scope.menu[0].style.width + ')';
 
-					screenData.onSwipe(el, 
-						[
-							function (start, current) {
-								scope.$apply(function () {
-									var movePos = current.x - start.x,
-										width = el[0].offsetWidth,
-										itemWidth = (movePos > 0) ? scope.menu[0].style.width : scope.menu[1].style.width;
+					scope.drag = {
+						start: function (e) {
+						},
+						move: function (e) {
+							// move wrapper on e.gesture.deltaX pixels
+							if ( !screenData.isDraggble ) {
+								return;
+							}
+							var movePos = e.gesture.deltaX,
+								width = el[0].offsetWidth,
+								itemWidth = (movePos > 0) ? scope.menu[0].style.width : scope.menu[1].style.width;
 
-									scope.navStyle['margin-left'] = (movePos) / width * parseInt(itemWidth) + 'px';
-									screenData.screenStyle['margin-left'] = (movePos) + 'px';
-								});
-							},
-							function (start, end) {
-								scope.$apply(function () {
-									var width = el[0].offsetWidth,
-										movePos = end.x - start.x,
-										itemWidth = (movePos > 0) 
-														? parseInt(scope.menu[0].style.width)
-														: -parseInt(scope.menu[1].style.width);
+							scope.navStyle['margin-left'] = (movePos) / width * parseInt(itemWidth) + 'px';
+							screenData.screenStyle['margin-left'] = (movePos) + 'px';
+						},
+						end: function (e) {
+							if ( !screenData.isDraggble ) {
+								return;
+							}
+							var width = el[0].offsetWidth,
+								movePos = e.gesture.deltaX,
+								itemWidth = (movePos > 0) 
+												? parseInt(scope.menu[0].style.width)
+												: -parseInt(scope.menu[1].style.width);
 
-									if ( Math.abs(movePos) * 4 > width ) {
-										TweenLite.to( element[0], 0.2, { 
-											css: { marginLeft: width * movePos / Math.abs(movePos) },
-											onComplete: function () {
-												scope.$apply(function () {
-													var marginOffset = -width;
+							if ( Math.abs(movePos) * 4 > width ) {
+								TweenLite.to( element[0], 0.2, {
+									css: { marginLeft: width * movePos / Math.abs(movePos) },
+									onComplete: function () {
+										scope.$apply(function () {
+											var marginOffset = -width;
 
-													if (movePos > 0) {
-														scope.menu.unshift(scope.menu.pop());
-													}
-													else {
-														scope.menu.push(scope.menu.shift());
-														marginOffset = width
-													}
-
-													TweenLite.fromTo(element[0], 0.2, {
-														css: {
-															marginLeft: marginOffset
-														}
-													}, {
-														css: {
-															marginLeft: 0
-														},
-														onComplete: function () {
-															screenData.screenStyle['margin-left'] = '0px';
-														}
-													});
-
-													screenData.setUrl(scope.menu[1].url)
-													
-												});
+											if (movePos > 0) {
+												scope.menu.unshift(scope.menu.pop());
 											}
-										});
-										TweenLite.to( '#main-nav ul', 0.2, { 
-											css: { marginLeft: itemWidth },
-											onComplete: function () {
-												scope.$apply(function () {
-													scope.navStyle['transform'] = 'translateX(-' + scope.menu[0].style.width + ')';
-													scope.navStyle['margin-left'] = '0px';
-												});
-
+											else {
+												scope.menu.push(scope.menu.shift());
+												marginOffset = width
 											}
+
+											TweenLite.fromTo(element[0], 0.2, {
+												css: {
+													marginLeft: marginOffset
+												}
+											}, {
+												css: {
+													marginLeft: 0
+												},
+												onComplete: function () {
+													screenData.screenStyle['margin-left'] = '0px';
+												}
+											});
+
+											screenData.setUrl(scope.menu[1].url)
+											
 										});
 									}
-									else {
-										TweenLite.to( element[0], 0.2, { css: { marginLeft: 0 } });
-										TweenLite.to( '#main-nav ul', 0.2, { css: { marginLeft: 0 } });
+								});
+								TweenLite.to( '#main-nav ul', 0.2, { 
+									css: { marginLeft: itemWidth },
+									onComplete: function () {
+										scope.$apply(function () {
+											scope.navStyle['transform'] = 'translateX(-' + scope.menu[0].style.width + ')';
+											scope.navStyle['margin-left'] = '0px';
+										});
+
 									}
 								});
 							}
-						]
-					);
+							else {
+								TweenLite.to( element[0], 0.2, { css: { marginLeft: 0 } });
+								TweenLite.to( '#main-nav ul', 0.2, { css: { marginLeft: 0 } });
+							}
+						}
+					};
 				}
 			};
 		}

@@ -11,6 +11,7 @@
 
 	<div ng-controller="ScreenCtrl as screen">
 		<screen-wrapper
+			hm-options="{ drag: screen.isDraggble }"
 			ng-style="screen.screenStyle"
 			menu="login.menu"
 			nav-style="login.navStyle">

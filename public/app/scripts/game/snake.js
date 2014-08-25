@@ -8,7 +8,8 @@
 	snake.constant('defaulSettings', {
 		startInterval: 450,
 		intervalStepSpeed: 50,
-		gameSpeedStep: 10
+		gameSpeedStep: 10,
+		startDirection: 0
 	});
 
 	snake.constant('classNames', {
@@ -18,8 +19,8 @@
 		food: 'food'
 	});
 
-	snake.factory('snake', ['settings', 'defaulSettings', '$interval', 'swipeControl', 'classNames',
-		function (settings, defaulSettings, $interval, swipeControl, classNames) {
+	snake.factory('snake', ['settings', 'defaulSettings', '$interval', 'score', 'classNames',
+		function (settings, defaulSettings, $interval, score, classNames) {
 			var screenWidth = window.innerWidth,
 				screenHeight = window.innerHeight,
 				lines = Math.floor(screenHeight / 8) - 1,
@@ -138,12 +139,15 @@
 					stopCallback = sc;
 				},
 				setStartPosition: function () {
+					snakeDirection = tmpDirection = defaulSettings.startDirection;
+
 					clearField();
 
 					setActive(lines, Math.round( columns / 2 ), classNames.end);
 					setActive(lines - 1, Math.round( columns / 2 ), classNames.active);
 					setActive(lines - 2, Math.round( columns / 2 ), classNames.head);
 					addFood();
+					score.setStartScore();
 				},
 				setFieldElement: function (el) {
 					element = el;
@@ -155,7 +159,7 @@
 					});
 				},
 				startGame: function () {
-					swipeControl.onSwipe(element, []);
+					// swipeControl.onSwipe(element, []);
 					var self = this;
 
 					gameInterval = $interval(function () {
@@ -186,7 +190,8 @@
 							( field[headLine][headColumn].isActive && field[headLine][headColumn].class != classNames.food )
 						) {
 							// end of the game							
-							self.stopGame("lose");
+							self.stopGame("lose", score.getScore());
+							score.publishScore();
 						}
 						else {
 							var lastActive = activePositions[activePositions.length - 1];
@@ -194,11 +199,15 @@
 							if (field[headLine][headColumn].class === classNames.food) {
 								setActive(headPosition[0], headPosition[1], classNames.active);
 								setActive(headLine, headColumn, classNames.head);
+								score.plusScore();
+
 								if ( !addFood() ) {
-									self.stopGame("win");
+									self.stopGame("win", score.getScore());
+									score.publishScore();
 								} 
 							}
 							else {
+								score.minusScore();
 								removeActive(endPosition[0], endPosition[1]);
 								setActive(headPosition[0], headPosition[1], classNames.active);
 								setActive(headLine, headColumn, classNames.head);
@@ -210,9 +219,9 @@
 
 					}, defaulSettings.startInterval - settings.speed * defaulSettings.intervalStepSpeed);
 				},
-				stopGame: function (result) {
+				stopGame: function (result, score) {
 					$interval.cancel(gameInterval);
-					( stopCallback ) && stopCallback(result);
+					( stopCallback ) && stopCallback(result, score);
 				}
 			};
 		}

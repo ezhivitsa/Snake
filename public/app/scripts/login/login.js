@@ -10,28 +10,28 @@
 					name: "registration",
 					url: "registration",
 					style: {
-						width: '219px'
+						width: '229px'
 					}
 				},
 				{
 					name: "sign in",
 					url: "signin",
 					style: {
-						width: '133px'
+						width: '143px'
 					}
 				},
 				{
 					name: "registration",
 					url: "registration",
 					style: {
-						width: '219px'
+						width: '229px'
 					}
 				},
 				{
 					name: "sign in",
 					url: "signin",
 					style: {
-						width: '133px'
+						width: '143px'
 					}
 				}
 			];
@@ -43,12 +43,14 @@
 	login.directive('signIn', function () {
 		return {
 			restrict: 'A',
-			controller: ['$scope', function ($scope) {
-				this.user = {
-					username: '',
-					password: ''
+			controller: ['$scope', 
+				function ($scope) {
+					this.user = {
+						username: '',
+						password: ''
+					}
 				}
-			}]
+			]
 		};
 	});
 
