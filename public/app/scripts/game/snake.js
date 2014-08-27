@@ -29,13 +29,18 @@
 			var field = [],
 				gameInterval = null,
 				element = null,
-				iterations = 0,
-				snakeDirection = 0,
-				tmpDirection = 0,
 				headPosition = null,
 				endPosition = null,
 				activePositions = [],
-				food = null;
+				food = null
+				settings = {
+					tmpDirection: 0,
+					snakeDirection: 0,
+					iterations: 1,
+					currentSpeed: 400,
+					level: 1,
+					foodEat: 0
+				};
 
 			var stopCallback = null;
 
@@ -140,8 +145,14 @@
 					stopCallback = sc;
 				},
 				setStartPosition: function () {
-					snakeDirection = tmpDirection = defaulSettings.startDirection;
-					iterations = 0;
+					settings = {
+						tmpDirection: defaulSettings.startDirection,
+						snakeDirection: defaulSettings.startDirection,
+						currentSpeed: defaulSettings.startInterval - settings.speed * defaulSettings.intervalStepSpeed,
+						iterations: 1,
+						level: 1,
+						foodEat: 0
+					};
 
 					clearField();
 
@@ -154,9 +165,9 @@
 				setFieldElement: function (el) {
 					element = el;
 					element.bind('swipe', function(e) {
-						if ( Math.abs( snakeDirection - e.direction) != 2 ) {
+						if ( Math.abs( settings.snakeDirection - e.direction) != 2 ) {
 							// change directions of movement of the snake
-							tmpDirection = e.direction;
+							settings.tmpDirection = e.direction;
 						}
 					});
 				},
@@ -169,7 +180,7 @@
 						var headLine = headPosition[0],
 							headColumn = headPosition[1];
 
-						switch (snakeDirection) {
+						switch (settings.snakeDirection) {
 							case 0:
 								headLine--;
 								break;
@@ -201,11 +212,16 @@
 							if (field[headLine][headColumn].class === classNames.food) {
 								setActive(headPosition[0], headPosition[1], classNames.active);
 								setActive(headLine, headColumn, classNames.head);
-								score.plusScore();
+								score.plusScore( Math.round((lines + columns) * 1.5 * settings.level) );
 
 								if ( !addFood() ) {
 									self.stopGame("win", score.getScore());
 									score.publishScore();
+									settings.foodEat++;
+
+									if ( settings.foodEat % 10 == 0 ) {
+										settings.level++;
+									}
 								} 
 							}
 							else {
@@ -217,18 +233,19 @@
 							}
 
 							// increasing of the speed of the snake
-							if ( iterations % 100 === 0 ) {
-								var increaseValue = ( defaulSettings.startInterval - settings.speed * defaulSettings.intervalStepSpeed ) / (iterations / 100 + 10);
+							if ( settings.iterations % 100 === 0 ) {
+								console.log('increase')
+								var increaseValue = ( defaulSettings.startInterval - settings.speed * defaulSettings.intervalStepSpeed ) / (settings.iterations / 100 + 10);
+								settings.currentSpeed -= increaseValue;
+								$interval.cancel(gameInterval);
+								self.startGame();
 							}
 						}
 
-						snakeDirection = tmpDirection;
-						iterations++;
+						settings.snakeDirection = settings.tmpDirection;
+						settings.iterations++;
 
-					}, defaulSettings.startInterval - settings.speed * defaulSettings.intervalStepSpeed);
-
-					console.log(gameInterval);
-					console.log($interval);
+					}, settings.currentSpeed);
 				},
 				stopGame: function (result, score) {
 					$interval.cancel(gameInterval);

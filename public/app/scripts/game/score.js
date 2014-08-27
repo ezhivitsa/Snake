@@ -21,8 +21,8 @@
 				currentScore -= defaultSettings.minusScore;
 			}
 
-			this.plusScore = function () {
-				currentScore += defaultSettings.plusScore;
+			this.plusScore = function (value) {
+				currentScore += ( value ) ? value : defaultSettings.plusScore;
 			}
 
 			this.getScore = function () {
