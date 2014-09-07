@@ -227,16 +227,16 @@
 					scope.swipeEvent = function (e) {
 						switch ( e.gesture.direction ) {
 							case "up":
-								element.triggerHandler({ type: 'swipe', direction: 0 });
+								element.triggerHandler({ type: 'swipeC', direction: 0 });
 								break;
 							case "right":
-								element.triggerHandler({ type: 'swipe', direction: 1 });
+								element.triggerHandler({ type: 'swipeC', direction: 1 });
 								break;
 							case "down":
-								element.triggerHandler({ type: 'swipe', direction: 2 });
+								element.triggerHandler({ type: 'swipeC', direction: 2 });
 								break;
 							case "left":
-								element.triggerHandler({ type: 'swipe', direction: 3 });
+								element.triggerHandler({ type: 'swipeC', direction: 3 });
 								break;
 						}
 					}

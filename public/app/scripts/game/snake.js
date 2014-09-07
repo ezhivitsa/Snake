@@ -164,7 +164,7 @@
 				},
 				setFieldElement: function (el) {
 					element = el;
-					element.bind('swipe', function(e) {
+					element.bind('swipeC', function(e) {
 						if ( Math.abs( snSettings.snakeDirection - e.direction) != 2 ) {
 							// change directions of movement of the snake
 							snSettings.tmpDirection = e.direction;
@@ -180,7 +180,7 @@
 						var headLine = headPosition[0],
 							headColumn = headPosition[1];
 
-						switch (snSettings.snakeDirection) {
+						switch (snSettings.tmpDirection) {
 							case 0:
 								headLine--;
 								break;
