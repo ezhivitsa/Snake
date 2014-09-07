@@ -182,9 +182,34 @@
 		}
 	]);
 
-	game.controller('ScoreCtrl', ['$scope', 
-		function ($scope) {
+	game.factory('scoreF', function () {
+		return {
+			scoreResults: [
+				{
+					user: 'test',
+					score: 1032
+				},
+				{
+					user: 'test',
+					score: 596
+				},
+				{
+					user: 'test',
+					score: 337
+				}
+			],
+			addScore: function (res) {
+				this.scoreResults.push({
+					user: res.user,
+					score: res.score
+				});
+			}
+		}
+	});
 
+	game.controller('ScoreCtrl', ['$scope', 'scoreF',
+		function ($scope, scoreF) {
+			this.scoreResults = scoreF.scoreResults;
 		}
 	]);
 

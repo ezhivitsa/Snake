@@ -54,11 +54,17 @@
 		};
 	});
 
-	login.controller('SignInCtrl', ['$scope', 
-		function ($scope) {
+	login.controller('SignInCtrl', ['$scope', '$location',
+		function ($scope, $location) {
 			this.user = {
 				username: '',
 				password: ''
+			}
+
+			this.submit = function (loginForm) {
+				if ( loginForm.username.$modelValue === 'test' && loginForm.password.$modelValue === 'test' ) {
+					$location.path("/game/");
+				}
 			}
 		}
 	]);

@@ -184,4 +184,28 @@ body {
 			}
         }
 	}
+
+	.score {
+		list-style-type: none;
+		padding: 0;
+
+		li {
+			color: $white;
+			margin-bottom: 20px;
+			font-size: 0;
+			border-bottom: 1px solid $grey;
+
+			&:first-child span {
+				font-size: 20px;				
+				border-bottom: 1px solid $white;
+			}
+
+			span {
+				font-size: 18px;
+				display: inline-block;
+				text-align: center;
+				width: 50%;
+			}
+		}
+	}
 }

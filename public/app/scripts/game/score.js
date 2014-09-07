@@ -9,8 +9,8 @@
 		plusScore: 100
 	});
 
-	score.service('score', ['defaultSettings',
-		function (defaultSettings) {
+	score.service('score', ['defaultSettings', 'scoreF',
+		function (defaultSettings, scoreF) {
 			var currentScore = 0;
 
 			this.setStartScore = function () {
@@ -31,6 +31,10 @@
 
 			this.publishScore = function () {
 				// ToDo create server and send result to the server
+				scoreF.addScore({
+					user: test,
+					score: currentScore
+				});
 			}
 		}
 	]);

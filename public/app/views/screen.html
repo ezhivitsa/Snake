@@ -78,6 +78,17 @@
 			<div 
 				ng-controller="ScoreCtrl as score"
 				ng-show="gameScreen.menu[1].url == 'score'">
+
+				<ul class="score">
+					<li>
+						<span>User</span>
+						<span>Score</span>
+					</li>
+					<li ng-repeat="scoreResult in score.scoreResults">
+						<span>{{scoreResult.user}}</span>
+						<span>{{scoreResult.score}}</span>
+					</li>
+				</ul>
 			</div>
 
 		</screen-wrapper>

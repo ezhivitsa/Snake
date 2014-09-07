@@ -562,3 +562,19 @@ body {
     body .screen-view .wp-select-wrapper.expanded .wp-option {
       height: 27px;
       padding-top: 8px; }
+  body .score {
+    list-style-type: none;
+    padding: 0; }
+    body .score li {
+      color: white;
+      margin-bottom: 20px;
+      font-size: 0;
+      border-bottom: 1px solid #6b6b6b; }
+      body .score li:first-child span {
+        font-size: 20px;
+        border-bottom: 1px solid white; }
+      body .score li span {
+        font-size: 18px;
+        display: inline-block;
+        text-align: center;
+        width: 50%; }
