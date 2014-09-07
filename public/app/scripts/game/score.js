@@ -32,7 +32,7 @@
 			this.publishScore = function () {
 				// ToDo create server and send result to the server
 				scoreF.addScore({
-					user: test,
+					user: 'test',
 					score: currentScore
 				});
 			}

@@ -32,8 +32,8 @@
 				headPosition = null,
 				endPosition = null,
 				activePositions = [],
-				food = null
-				settings = {
+				food = null,
+				snSettings = {
 					tmpDirection: 0,
 					snakeDirection: 0,
 					iterations: 1,
@@ -145,7 +145,7 @@
 					stopCallback = sc;
 				},
 				setStartPosition: function () {
-					settings = {
+					snSettings = {
 						tmpDirection: defaulSettings.startDirection,
 						snakeDirection: defaulSettings.startDirection,
 						currentSpeed: defaulSettings.startInterval - settings.speed * defaulSettings.intervalStepSpeed,
@@ -165,9 +165,9 @@
 				setFieldElement: function (el) {
 					element = el;
 					element.bind('swipe', function(e) {
-						if ( Math.abs( settings.snakeDirection - e.direction) != 2 ) {
+						if ( Math.abs( snSettings.snakeDirection - e.direction) != 2 ) {
 							// change directions of movement of the snake
-							settings.tmpDirection = e.direction;
+							snSettings.tmpDirection = e.direction;
 						}
 					});
 				},
@@ -180,7 +180,7 @@
 						var headLine = headPosition[0],
 							headColumn = headPosition[1];
 
-						switch (settings.snakeDirection) {
+						switch (snSettings.snakeDirection) {
 							case 0:
 								headLine--;
 								break;
@@ -212,15 +212,15 @@
 							if (field[headLine][headColumn].class === classNames.food) {
 								setActive(headPosition[0], headPosition[1], classNames.active);
 								setActive(headLine, headColumn, classNames.head);
-								score.plusScore( Math.round((lines + columns) * 1.5 * settings.level) );
+								score.plusScore( Math.round((lines + columns) * 1.5 * snSettings.level) );
 
 								if ( !addFood() ) {
 									self.stopGame("win", score.getScore());
 									score.publishScore();
-									settings.foodEat++;
+									snSettings.foodEat++;
 
-									if ( settings.foodEat % 10 == 0 ) {
-										settings.level++;
+									if ( snSettings.foodEat % 10 == 0 ) {
+										snSettings.level++;
 									}
 								} 
 							}
@@ -233,19 +233,19 @@
 							}
 
 							// increasing of the speed of the snake
-							if ( settings.iterations % 100 === 0 ) {
+							if ( snSettings.iterations % 100 === 0 ) {
 								console.log('increase')
 								var increaseValue = ( defaulSettings.startInterval - settings.speed * defaulSettings.intervalStepSpeed ) / (settings.iterations / 100 + 10);
-								settings.currentSpeed -= increaseValue;
+								snSettings.currentSpeed -= increaseValue;
 								$interval.cancel(gameInterval);
 								self.startGame();
 							}
 						}
 
-						settings.snakeDirection = settings.tmpDirection;
-						settings.iterations++;
+						snSettings.snakeDirection = snSettings.tmpDirection;
+						snSettings.iterations++;
 
-					}, settings.currentSpeed);
+					}, snSettings.currentSpeed);
 				},
 				stopGame: function (result, score) {
 					$interval.cancel(gameInterval);
